@@ -2,25 +2,49 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
 <title>广西6-7日旅行｜南宁 · 阳朔 · 柳州（成都出发）</title>
 <meta name="description" content="简约大气的广西旅行方案：可直接执行的日程与时刻、可视化地图、国庆参考气候、酒店与美食清单。" />
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
 <style>
   :root{
-    --text:#0f1115;--sub:#64748b;--bg:#f7f8fa;--card:#ffffff;--line:#e5e7eb;--accent:#2563eb;--accent-weak:#e8f0ff;--ok:#10b981;--warn:#f59e0b;--danger:#ef4444;--shadow:0 8px 30px rgba(15,17,21,.06);--radius:16px
+    --text: #0f1115;
+    --sub: #64748b;
+    --bg: #f7f8fa;
+    --card: #ffffff;
+    --line: #e5e7eb;
+    --accent: #38bdf8;
+    --accent-weak: #e0f2fe;
+    --ok: #10b981;
+    --warn: #f59e0b;
+    --danger: #ef4444;
+    --shadow: 0 8px 30px rgba(15,17,21,.06);
+    --radius: 16px;
   }
-  html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans CJK SC",sans-serif;-webkit-font-smoothing:antialiased}
+  html,body{
+    margin:0; padding:0;
+    background:linear-gradient(135deg, #60a5fa 0%, #38bdf8 100%);
+    color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans CJK SC",sans-serif;
+    -webkit-font-smoothing:antialiased
+  }
+  html{scroll-behavior:smooth}
+  [id]{scroll-margin-top:90px}
   body{font-size:17px;line-height:1.75}
   a{color:var(--accent);text-decoration:none}
   .container{max-width:1100px;margin:0 auto;padding:0 22px}
-  .topbar{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.9);backdrop-filter:saturate(180%) blur(10px);border-bottom:1px solid var(--line)}
-  .topbar-inner{display:flex;align-items:center;justify-content:space-between;height:60px}
-  .brand{font-weight:700;letter-spacing:-.01em}
-  .nav a{margin-left:18px;color:#1f2937}
-  .nav a:hover{color:var(--accent)}
-  .hero{padding:52px 0 18px;border-bottom:1px solid var(--line)}
-  .hero h1{margin:0;font-size:34px;line-height:1.22;letter-spacing:-.015em}
+  .topbar{position:sticky;top:0;z-index:1000;background:rgba(255,255,255,.92);backdrop-filter:blur(18px);border-bottom:1px solid var(--line);box-shadow:0 1px 2px rgba(0,0,0,.05)}
+  .topbar-inner{display:flex;align-items:center;justify-content:space-between;height:64px}
+  .brand{font-weight:800;letter-spacing:-.01em;color:var(--accent);white-space:nowrap;cursor:pointer}
+  .nav{display:flex;align-items:center;gap:10px}
+  .nav a{color:#0f172a;padding:8px 12px;border-radius:10px;border:1px solid transparent;transition:all .2s}
+  .nav a:hover{background:var(--accent-weak);color:#0f172a;border-color:var(--line)}
+  .nav a.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .hero{padding:36px 0 18px}
+  .hero-card{background:rgba(255,255,255,0.98);backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,0.7);border-radius:var(--radius);padding:28px 22px;box-shadow:0 10px 15px -3px rgba(0,0,0,.1);position:relative}
+  .hero-card::before{content:'';position:absolute;left:0;right:0;top:0;height:5px;background:linear-gradient(90deg, var(--accent), #60a5fa, #38bdf8);border-top-left-radius:var(--radius);border-top-right-radius:var(--radius)}
+  .hero h1{margin:0;font-size:34px;line-height:1.25;letter-spacing:-.02em;background:linear-gradient(135deg, var(--accent), #8b5cf6);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .hero-sub{margin:8px 0 0;color:var(--sub)}
   .cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:16px}
   .btn{appearance:none;border:1px solid var(--line);background:#fff;color:#0f1115;padding:10px 14px;border-radius:12px;font-weight:600;cursor:pointer}
   .btn.primary{background:#0f1115;color:#fff;border-color:#0f1115}
@@ -28,8 +52,10 @@
   .note{font-size:13px;color:var(--sub)}
   main{padding:26px 0 70px}
   section+section{margin-top:26px}
-  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px}
-  h2{margin:0 0 12px;font-size:22px;letter-spacing:-.01em;border-left:4px solid var(--accent);padding-left:10px}
+  .card{background:rgba(255,255,255,0.98);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.7);border-radius:var(--radius);box-shadow:0 10px 15px -3px rgba(0,0,0,.1);padding:26px;transition:transform .2s, box-shadow .2s}
+  .card:hover{transform:translateY(-2px);box-shadow:0 14px 24px -6px rgba(0,0,0,.15)}
+  h2{margin:0 0 16px;font-size:24px;letter-spacing:-.01em;display:flex;align-items:center;gap:12px}
+  h2::before{content:'';width:8px;height:24px;border-radius:6px;background:linear-gradient(135deg, var(--accent), #60a5fa)}
   .list{margin:10px 0 0;padding-left:22px}
   .hr{height:1px;background:var(--line);margin:16px 0}
   details{border:1px solid var(--line);border-radius:12px;background:#fff;overflow:hidden}
@@ -38,9 +64,26 @@
   details .content{padding:14px 16px}
   details+details{margin-top:12px}
   /* itinerary timeline */
-  .timeline{border-left:2px solid var(--line);margin-left:10px;padding-left:16px}
-  .t{margin:8px 0}
-  .t b{display:inline-block;min-width:78px}
+  .timeline{position:relative;margin-left:10px;padding-left:16px}
+  .timeline:before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;background:linear-gradient(to bottom, var(--accent), var(--accent-weak));border-radius:2px}
+  .it{position:relative;display:flex;gap:12px;align-items:flex-start;background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin:12px 0;box-shadow:var(--shadow);transition:transform .2s, box-shadow .2s}
+  .it:hover{transform:translateX(8px);box-shadow:0 10px 20px rgba(0,0,0,.08)}
+  .it:before{content:'';position:absolute;left:-18px;top:22px;width:14px;height:14px;border-radius:50%;background:var(--accent);border:4px solid #fff;box-shadow:0 0 0 2px var(--accent-weak)}
+  .it-time{font-weight:700;color:#111;min-width:72px}
+  .it-body{flex:1}
+  .it-title{font-weight:600;color:#111;margin-bottom:6px}
+  .chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+  .chip{display:inline-flex;align-items:center;gap:6px;padding:3px 8px;border-radius:999px;border:1px solid var(--line);background:#fafafa;font-size:12px;color:#374151}
+  .chip.time{background:#eef2ff;border-color:#e5e7eb;color:#1e3a8a}
+  .chip.dur{background:#ecfeff;border-color:#e5e7eb;color:#155e75}
+  .chip.price{background:#fef3c7;border-color:#e5e7eb;color:#92400e}
+  .chip.dist{background:#e0f2fe;border-color:#e5e7eb;color:#075985}
+  .chip.trans{background:#f1f5f9;border-color:#e5e7eb;color:#0f172a}
+  .chip.wx{background:#e0f2fe;border-color:#bae6fd;color:#075985}
+  .it-wx{background:linear-gradient(135deg, #f0f9ff, #ffffff);}
+  .rec{margin-top:8px;padding:10px;border:1px dashed var(--line);border-radius:10px;background:#fcfcfd}
+  .rec-item{margin:6px 0}
+  .rec-item b{color:#0f172a}
   .badge{display:inline-block;padding:2px 8px;border-radius:999px;background:var(--accent-weak);color:#1e293b;border:1px solid var(--line);font-size:12px}
   .pill{display:inline-block;padding:4px 10px;border-radius:999px;background:#fff;border:1px solid var(--line);font-size:12px;color:#111}
   .grid{display:grid;grid-template-columns:1fr;gap:16px}
@@ -48,10 +91,38 @@
   .table td,.table th{padding:12px 14px;background:#fff;border:1px solid var(--line)}
   .table th{background:#fbfbfc;text-align:left}
   /* map */
-  #map{width:100%;height:420px;border-radius:16px;border:1px solid var(--line);box-shadow:var(--shadow);overflow:hidden;position:relative;z-index:1}
-  .leaflet-container{border-radius:16px}
-  .legend{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
-  .legend .pill{background:#fff}
+  .map-wrapper{position:relative;height:440px;border-radius:16px;overflow:hidden;box-shadow:0 10px 20px rgba(0,0,0,.12);border:1px solid var(--line)}
+  #map{width:100%;height:100%}
+  .leaflet-container{border-radius:16px;touch-action:pan-y pinch-zoom;}
+  .map-overlay{position:absolute;top:14px;right:14px;left:auto;z-index:1001;display:flex;flex-direction:column;gap:10px;pointer-events:none;max-width:calc(100% - 28px)}
+  .map-control{background:rgba(255,255,255,0.95);backdrop-filter:blur(10px);padding:8px 12px;border-radius:14px;border:1px solid var(--line);display:inline-flex;align-items:center;gap:8px;box-shadow:var(--shadow);font-size:13px;pointer-events:auto;white-space:nowrap;line-height:1}
+  .map-control input{width:16px;height:16px}
+  /* animations */
+  .fade-in-up{opacity:0;transform:translateY(18px);transition:all .6s ease}
+  .fade-in-up.in{opacity:1;transform:translateY(0)}
+  /* table wrap for responsive */
+  .table-wrap{width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .table-wrap::-webkit-scrollbar{display:none}
+  /* mobile */
+  @media (max-width: 768px){
+    body{font-size:16px}
+    .topbar-inner{height:56px}
+    .hero{padding:28px 0 12px}
+    .hero h1{font-size:28px}
+    .map-wrapper{height:360px}
+    .map-overlay{top:auto;bottom:10px;left:10px;right:auto;flex-direction:row;gap:8px;max-width:calc(100% - 20px)}
+    .map-control{padding:6px 8px;font-size:12px;}
+    .nav{overflow-x:auto;white-space:nowrap;gap:8px;-webkit-overflow-scrolling:touch}
+    .nav::-webkit-scrollbar{display:none}
+    .nav a{flex:0 0 auto}
+    .modal{width:min(620px,96vw)}
+    details summary{padding:12px 14px}
+    details .content{padding:12px 14px}
+    .it-time{min-width:64px}
+    /* avoid ugly wraps in weather table */
+    .table-wrap .table{min-width:640px}
+    .table-wrap .table td, .table-wrap .table th{white-space:nowrap}
+  }
   /* modal */
   .overlay{position:fixed;inset:0;background:rgba(0,0,0,.35);display:none;align-items:center;justify-content:center;z-index:10000}
   .modal{width:min(560px,92vw);background:#fff;border-radius:16px;border:1px solid var(--line);box-shadow:var(--shadow)}
@@ -60,21 +131,17 @@
   .modal-f{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end;padding:14px 16px;border-top:1px solid var(--line)}
   .qr{display:flex;gap:14px;align-items:center}
   .qr img{width:164px;height:164px;border-radius:12px;border:1px solid var(--line)}
-  .toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#111;color:#fff;padding:10px 14px;border-radius:999px;font-size:14px;opacity:0;pointer-events:none;transition:opacity .25s;z-index:50}
+  .toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#111;color:#fff;padding:10px 14px;border-radius:999px;font-size:14px;opacity:0;pointer-events:none;transition:opacity .25s;z-index:1050}
   .toast.show{opacity:1}
 </style>
 </head>
 <body>
   <div class="topbar">
     <div class="container topbar-inner">
-      <div class="brand">广西·高性价比行程</div>
+      <div class="brand" id="brandTop">广西国庆游</div>
       <nav class="nav">
         <a href="#mapsec">地图</a>
         <a href="#plan">行程</a>
-        <a href="#weather">国庆气候</a>
-        <a href="#traffic">交通</a>
-        <a href="#hotels">住宿</a>
-        <a href="#foods">美食</a>
         <a href="#tips">建议</a>
       </nav>
     </div>
@@ -82,29 +149,23 @@
 
   <header class="hero">
     <div class="container">
-      <h1>广西 6–7 日旅行｜南宁 · 阳朔 · 柳州（成都出发）</h1>
-      <div class="cta">
-        <button class="btn accent" onclick="openShareModal()">分享地图链接/二维码</button>
-        <button class="btn" onclick="copyKeys()">复制购票关键词</button>
-        <div style="flex:1"></div>
-        <span class="note">主题色：</span>
-        <button class="btn" onclick="setTheme('#2563eb','#e8f0ff')" title="#2563eb">蓝</button>
-        <button class="btn" onclick="setTheme('#10b981','#e6fff5')" title="#10b981">绿</button>
-        <button class="btn" onclick="setTheme('#f43f5e','#ffe8ec')" title="#f43f5e">红</button>
+      <div class="hero-card fade-in-up" id="heroCard">
+        <h1>广西 6 日轻松行｜南宁 · 柳州 · 阳朔</h1>
       </div>
     </div>
   </header>
 
   <main class="container">
-    <section id="mapsec" class="card">
-      <h2>可视化地图（点击标记查看点位）</h2>
-      <div id="map"></div>
-      <div class="legend">
-        <label class="pill"><input type="checkbox" id="filterTraffic" checked> 交通</label>
-        <label class="pill"><input type="checkbox" id="filterSight" checked> 景点</label>
-        <label class="pill"><input type="checkbox" id="filterFood" checked> 美食</label>
-        <label class="pill"><input type="checkbox" id="filterStay" checked> 住宿区域</label>
-        <button class="btn" onclick="regenShare()">重新生成分享链接</button>
+    <section id="mapsec" class="card fade-in-up">
+      <h2>可视化地图</h2>
+      <div class="map-wrapper">
+        <div id="map"></div>
+        <div class="map-overlay">
+          <label class="map-control"><input type="checkbox" id="filterTraffic" checked> 交通</label>
+          <label class="map-control"><input type="checkbox" id="filterSight" checked> 景点</label>
+          <label class="map-control"><input type="checkbox" id="filterFood" checked> 美食</label>
+          <label class="map-control"><input type="checkbox" id="filterStay" checked> 住宿</label>
+        </div>
       </div>
       <details style="margin-top:10px">
         <summary>导入自定义POI（每行：名称,纬度,经度,类别）</summary>
@@ -119,284 +180,196 @@
       <div class="note" style="margin-top:6px">地图使用 Leaflet+OpenStreetMap，无需登录或授权。点位来自高德POI坐标与推荐清单。</div>
     </section>
 
-    <section id="plan" class="card">
-      <h2>行程（固定示例时刻，可直接执行）</h2>
-      <div class="cta"><button class="btn" onclick="switchPlan('d6')">6天标准</button><button class="btn" onclick="switchPlan('d7')">7天慢行</button></div>
-      <div class="note">说明：以下为可执行的固定时刻示例，购票时优先选择同时间窗/相近班次；若实际购票不同，可按结构顺延。</div>
+    <section id="plan" class="card fade-in-up">
+      <h2>行程</h2>
+      <div class="note">说明：以下为可执行示例时刻；购票时优先选择同时间窗/相近班次；如班次不同，可按结构顺延。</div>
       <div class="hr"></div>
-
       <div id="plan6">
-      <h3>D1 成都 → 南宁｜南宁城区</h3>
+      <h3>D1 成都 → 南宁｜轻松抵达 · 东站片区</h3>
       <div class="timeline">
-        <div class="t"><b>10:20</b> 成都天府 T2 起飞 → <b>12:35</b> 抵达 南宁吴圩 NNG（直飞，约2h15m）</div>
-        <div class="t"><b>13:00</b> 机场大巴 <span class="badge">￥25 · 70m</span> → 南宁东站/凤岭</div>
-        <div class="t"><b>14:20</b> 办理入住（东站片区）</div>
-        <div class="t"><b>16:00</b> 青秀山 2–3h</div>
-        <div class="t"><b>19:30</b> 中山路美食街 夜市</div>
-      </div>
-
-      <h3>D2 南宁 → 柳州（动车）</h3>
-      <div class="timeline">
-        <div class="t"><b>10:30</b> 酒店退房 → 南宁东站</div>
-        <div class="t"><b>13:00</b> 南宁东 开 <span class="badge">示例 D8xxx</span> → <b>14:20</b> 到 柳州 <span class="badge">二等￥70–100 · 1–1.5h</span></div>
-        <div class="t"><b>15:00</b> 入住柳江沿岸</div>
-        <div class="t"><b>19:30</b> 百里柳江夜游 <span class="badge">￥47 · 航期18:00–22:00</span></div>
-      </div>
-
-      <h3>D3 柳州半日 → 阳朔（直达优先）</h3>
-      <div class="timeline">
-        <div class="t"><b>09:00</b> 柳侯公园/工业博物馆 2–3h</div>
-        <div class="t"><b>12:30</b> 柳州 开 → 阳朔 <span class="badge">直达优先 · 示例 12:30–14:00</span> <span class="badge">￥65–90</span></div>
-        <div class="t note">如无直达，则柳州→桂林/桂林北→阳朔（总时长约2–2.5h）。</div>
-        <div class="t"><b>15:30</b> 入住阳朔（西街步行圈）</div>
-        <div class="t"><b>19:30</b> 西街夜逛 + 啤酒鱼</div>
-      </div>
-
-      <h3>D4 阳朔｜遇龙河 · 十里画廊</h3>
-      <div class="timeline">
-        <div class="t"><b>09:00</b> 十里画廊骑行/电驴（￥40–80/天）</div>
-        <div class="t"><b>11:00</b> 遇龙河竹筏（￥120–280/人，40–90m）</div>
-        <div class="t"><b>16:30</b> 西街晚餐</div>
-      </div>
-
-      <h3>D5 阳朔｜相公山 · 兴坪古镇</h3>
-      <div class="timeline">
-        <div class="t"><b>05:30</b> 出发相公山（60–80m车程）</div>
-        <div class="t"><b>09:30</b> 相公山下山早餐 → 兴坪古镇（40–60m）</div>
-        <div class="t"><b>12:00</b> 兴坪午餐 + 漓江步行/船拍</div>
-        <div class="t"><b>17:30</b> 返回阳朔</div>
-      </div>
-
-      <h3>D6 阳朔 → 成都（桂林机场晚航班）</h3>
-      <div class="timeline">
-        <div class="t"><b>12:00</b> 阳朔 → 桂林两江机场（大巴/专车约1.5–2h）</div>
-        <div class="t"><b>20:30</b> 桂林两江 起飞 → <b>22:40</b> 抵达 成都（示例晚航班）</div>
-        <div class="t note">如更便宜的返程为南宁出港，可改 D5 晚移步南宁，并在 D6 南宁白天游玩后晚航班返蓉。</div>
-      </div>
-      </div>
-
-      <div id="plan7" style="display:none">
-        <h3>D1 成都 → 南宁｜南宁城区</h3>
-        <div class="timeline">
-          <div class="t"><b>10:20</b> 成都天府 → <b>12:35</b> 南宁吴圩；大巴至东站片区入住</div>
-          <div class="t"><b>16:00</b> 青秀山；<b>19:30</b> 中山路夜市</div>
+        <div class="it"><div class="it-time">天气</div><div class="it-body"><div class="it-title">南宁 26–30℃ · 午后阵雨：中</div><div class="chips"><span class="chip wx">短袖+薄外套；舒适步行鞋</span></div></div></div>
+        <div class="it">
+          <div class="it-time">10:20</div>
+          <div class="it-body">
+            <div class="it-title">成都天府 T2 → 南宁吴圩 NNG（直飞）</div>
+            <div class="chips">
+              <span class="chip dur">约2h15m</span>
+              <span class="chip price">机票：参考￥600–900/人</span>
+              <span class="chip trans">航班</span>
+            </div>
+          </div>
         </div>
-        <h3>D2 南宁 → 阳朔（高铁）</h3>
-        <div class="timeline">
-          <div class="t"><b>14:00–16:06</b> 南宁东→阳朔；专线入城，西街夜游</div>
+        <div class="it">
+          <div class="it-time">13:10</div>
+          <div class="it-body">
+            <div class="it-title">机场大巴 → 南宁东站/凤岭</div>
+            <div class="chips">
+              <span class="chip dur">约70m</span>
+              <span class="chip price">￥25/人</span>
+              <span class="chip trans">公交</span>
+            </div>
+          </div>
         </div>
-        <h3>D3 阳朔｜遇龙河 · 十里画廊</h3>
-        <div class="timeline"><div class="t">同6天版 D3</div></div>
-        <h3>D4 阳朔｜相公山 · 兴坪古镇</h3>
-        <div class="timeline"><div class="t">同6天版 D4</div></div>
-        <h3>D5 阳朔 → 柳州｜夜游柳江</h3>
-        <div class="timeline"><div class="t">同6天版 D5（优先直达）</div></div>
-        <h3>D6 柳州 → 南宁｜南宁全天</h3>
-        <div class="timeline">
-          <div class="t"><b>09:30</b> 柳州→南宁东（1–1.5h）</div>
-          <div class="t"><b>11:30</b> 入住南宁（会展/东盟·万象城片区）</div>
-          <div class="t"><b>14:00</b> 民歌湖/广西美术馆/方特（任选）</div>
-          <div class="t"><b>19:30</b> 再战中山路夜市或农院路夜市</div>
+        <div class="it">
+          <div class="it-time">14:30</div>
+          <div class="it-body">
+            <div class="it-title">办理入住 · 东站片区</div>
+            <div class="rec">
+              <div class="rec-item"><b>全季·南宁东站店</b>｜预算￥280–380｜步行接驳方便</div>
+              <div class="rec-item"><b>亚朵·万象城片区</b>｜预算￥320–420｜吃喝逛街便利</div>
+            </div>
+          </div>
         </div>
-        <h3>D7 南宁 → 成都（午后或晚间航班）</h3>
-        <div class="timeline">
-          <div class="t"><b>10:00</b> 南湖/园博园（可选）</div>
-          <div class="t"><b>17:30–22:00</b> 任意晚航班返程</div>
+        <div class="it">
+          <div class="it-time">16:30</div>
+          <div class="it-body">
+            <div class="it-title">青秀山 · 登高赏城景</div>
+            <div class="chips">
+              <span class="chip dur">2–3h</span>
+              <span class="chip price">门票参考￥20–30</span>
+            </div>
+          </div>
         </div>
+        <div class="it">
+          <div class="it-time">19:30</div>
+          <div class="it-body">
+            <div class="it-title">中山路美食街 · 晚餐+夜逛</div>
+            <div class="rec">
+              <div class="rec-item" data-pan="复记老友粉（中山路）"><b>复记老友粉</b>｜人均￥15–25｜06:00–24:00</div>
+              <div class="rec-item" data-pan="阿香柠檬鸭（中山路）"><b>阿香柠檬鸭</b>｜人均￥35–50｜11:00–22:00</div>
+              <div class="rec-item" data-pan="黄氏粉饺（中山路口）"><b>黄氏粉饺</b>｜人均￥12–20｜18:00–24:00</div>
+            </div>
+          </div>
+        </div>
+        <div class="it">
+          <div class="it-time">22:00</div>
+          <div class="it-body">
+            <div class="it-title">夜宵（可选）</div>
+            <div class="rec">
+              <div class="rec-item" data-pan="老表烧烤摊（中山路）"><b>老表烧烤摊</b>｜人均￥30–80｜19:00–02:00</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <h3>D2 南宁｜不早起的城市漫步</h3>
+      <div class="timeline">
+        <div class="it"><div class="it-time">天气</div><div class="it-body"><div class="it-title">南宁 26–31℃ · 多云/晴</div><div class="chips"><span class="chip wx">防晒+空调薄外套</span></div></div></div>
+        <div class="it"><div class="it-time">09:30</div><div class="it-body"><div class="it-title">早餐 · 老友粉/卷筒粉</div><div class="chips"><span class="chip price">人均￥20–35</span></div></div></div>
+        <div class="it"><div class="it-time">10:30</div><div class="it-body"><div class="it-title">园博园 / 民歌湖 / 广西美术馆（三选一）</div><div class="chips"><span class="chip dur">慢逛2–3h</span></div></div></div>
+        <div class="it"><div class="it-time">13:00</div><div class="it-body"><div class="it-title">午餐 · 中山路美食圈</div><div class="chips"><span class="chip price">人均￥40–80</span></div></div></div>
+        <div class="it"><div class="it-time">15:30</div><div class="it-body"><div class="it-title">万象城 / 青秀万达 · 休闲</div></div></div>
+        <div class="it"><div class="it-time">19:00</div><div class="it-body"><div class="it-title">晚餐 · 中山路或万象城餐饮</div><div class="chips"><span class="chip price">人均￥60–120</span></div></div></div>
+      </div>
+
+      <h3>D3 南宁 → 柳州｜柳江边夜色</h3>
+      <div class="timeline">
+        <div class="it"><div class="it-time">天气</div><div class="it-body"><div class="it-title">柳州 25–29℃ · 多云</div><div class="chips"><span class="chip wx">江边晚风偏凉，晚间薄外套</span></div></div></div>
+        <div class="it"><div class="it-time">10:30</div><div class="it-body"><div class="it-title">退房 → 南宁东站</div></div></div>
+        <div class="it"><div class="it-time">12:30</div><div class="it-body"><div class="it-title">高铁 · 南宁东 → 柳州</div><div class="chips"><span class="chip dur">1–1.5h</span><span class="chip price">二等￥70–100</span><span class="chip trans">铁路</span></div></div></div>
+        <div class="it"><div class="it-time">14:00</div><div class="it-body"><div class="it-title">入住柳江沿岸酒店（江景优先）</div><div class="rec"><div class="rec-item"><b>东城华美达广场</b>｜预算￥300–420</div><div class="rec-item"><b>万达嘉华 / 欢朋</b>｜预算￥280–420</div></div></div></div>
+        <div class="it"><div class="it-time">15:30</div><div class="it-body"><div class="it-title">下午茶+小食 · 螺蛳粉</div><div class="rec"><div class="rec-item" data-pan="老柳州螺蛳粉（荣军店）"><b>老柳州螺蛳粉（荣军店）</b>｜人均￥18–28｜10:30–02:00</div></div></div></div>
+        <div class="it"><div class="it-time">19:30</div><div class="it-body"><div class="it-title">百里柳江夜游</div><div class="chips"><span class="chip dur">约1h</span><span class="chip price">￥47/人</span></div></div></div>
+        <div class="it"><div class="it-time">21:30</div><div class="it-body"><div class="it-title">夜宵 · 滨江路烤串/甜酒冲蛋</div><div class="chips"><span class="chip price">人均￥20–50</span></div></div></div>
+      </div>
+
+      <h3>D4 柳州｜工业与人间烟火</h3>
+      <div class="timeline">
+        <div class="it"><div class="it-time">天气</div><div class="it-body"><div class="it-title">柳州 25–29℃ · 多云</div><div class="chips"><span class="chip wx">白天短袖；晚间加件薄外套</span></div></div></div>
+        <div class="it"><div class="it-time">10:00</div><div class="it-body"><div class="it-title">柳州工业博物馆 / 柳侯公园（任选）</div><div class="chips"><span class="chip dur">2–3h</span></div></div></div>
+        <div class="it"><div class="it-time">12:30</div><div class="it-body"><div class="it-title">午餐 · 本地粉店</div><div class="chips"><span class="chip price">人均￥18–30</span></div><div class="rec"><div class="rec-item" data-pan="老柳州螺蛳粉（荣军店）"><b>可再访：老柳州（荣军店）</b></div></div></div></div>
+        <div class="it"><div class="it-time">15:00</div><div class="it-body"><div class="it-title">马鞍山 / 窑埠古镇 · 慢游</div></div></div>
+        <div class="it"><div class="it-time">19:00</div><div class="it-body"><div class="it-title">晚餐 · 柳江边江鱼/酿豆腐</div><div class="chips"><span class="chip price">人均￥50–90</span></div></div></div>
+      </div>
+
+      <h3>D5 柳州 → 阳朔｜西街漫游</h3>
+      <div class="timeline">
+        <div class="it"><div class="it-time">天气</div><div class="it-body"><div class="it-title">阳朔 24–28℃ · 多云</div><div class="chips"><span class="chip wx">骑行防晒+一次性雨衣</span></div></div></div>
+        <div class="it"><div class="it-time">10:30</div><div class="it-body"><div class="it-title">退房 → 柳州站</div></div></div>
+        <div class="it"><div class="it-time">12:30</div><div class="it-body"><div class="it-title">高铁 · 柳州 → 阳朔（直达优先）</div><div class="chips"><span class="chip dur">1.5–2h</span><span class="chip price">￥65–90</span><span class="chip trans">铁路</span></div><div class="rec"><div class="rec-item"><b>无直达</b>：桂林/桂林北中转，总时长2–2.5h</div></div></div></div>
+        <div class="it"><div class="it-time">15:00</div><div class="it-body"><div class="it-title">入住阳朔 · 西街步行圈</div><div class="rec"><div class="rec-item"><b>益田西街酒店</b>｜预算￥320–420</div><div class="rec-item"><b>十里画廊景观民宿</b>｜预算￥260–400</div></div></div></div>
+        <div class="it"><div class="it-time">16:30</div><div class="it-body"><div class="it-title">十里画廊骑行/电驴</div><div class="chips"><span class="chip price">租车￥40–80/天</span></div></div></div>
+        <div class="it"><div class="it-time">19:30</div><div class="it-body"><div class="it-title">晚餐 · 西街美食圈</div><div class="rec"><div class="rec-item" data-pan="大师兄啤酒鱼（西街）"><b>大师兄啤酒鱼</b>｜人均￥60–100｜11:00–22:00</div><div class="rec-item"><b>田螺酿 / 芒果糯米饭</b>｜人均￥12–30｜18:00–24:00</div></div></div></div>
+      </div>
+
+      <h3>D6 阳朔｜遇龙河 · 兴坪 · 晚返程</h3>
+      <div class="timeline">
+        <div class="it"><div class="it-time">天气</div><div class="it-body"><div class="it-title">阳朔/桂林 23–28℃ · 多云</div><div class="chips"><span class="chip wx">返程留出雨备与路程缓冲</span></div></div></div>
+        <div class="it"><div class="it-time">09:30</div><div class="it-body"><div class="it-title">早餐 · 西街小吃</div><div class="chips"><span class="chip price">人均￥20–35</span></div></div></div>
+        <div class="it"><div class="it-time">10:30</div><div class="it-body"><div class="it-title">遇龙河竹筏</div><div class="chips"><span class="chip dur">40–90m（视水位）</span><span class="chip price">￥120–280/人</span></div></div></div>
+        <div class="it"><div class="it-time">12:30</div><div class="it-body"><div class="it-title">兴坪古镇 · 午餐+漫步</div><div class="chips"><span class="chip dist">阳朔→兴坪：车程40–60m</span><span class="chip price">人均￥50–100</span></div></div></div>
+        <div class="it"><div class="it-time">16:30</div><div class="it-body"><div class="it-title">返回阳朔取行李 → 桂林两江机场</div><div class="chips"><span class="chip dist">阳朔→机场：1.5–2h</span><span class="chip trans">大巴/专车</span></div></div></div>
+        <div class="it"><div class="it-time">20:30</div><div class="it-body"><div class="it-title">桂林两江 → 成都（晚航班示例）</div><div class="chips"><span class="chip dur">约2h10m</span><span class="chip trans">航班</span></div></div></div>
+      </div>
       </div>
     </section>
 
-    <section id="weather" class="card">
-      <h2>国庆参考气候（按行程日）</h2>
-      <table class="table">
-        <thead><tr><th>行程日</th><th>城市</th><th>白天/夜间</th><th>降水可能</th><th>穿衣建议</th></tr></thead>
-        <tbody>
-          <tr><td>D1</td><td>南宁</td><td>26–30℃ / 20–23℃</td><td>午后阵雨概率中</td><td>短袖+薄外套，轻便鞋</td></tr>
-          <tr><td>D2</td><td>南宁→阳朔</td><td>南宁 26–30℃；阳朔 24–28℃</td><td>中</td><td>高铁空调偏凉，备薄外套</td></tr>
-          <tr><td>D3</td><td>阳朔</td><td>24–28℃ / 18–21℃</td><td>中</td><td>骑行防晒+一次性雨衣</td></tr>
-          <tr><td>D4</td><td>阳朔（相公山）</td><td>清晨体感16–20℃</td><td>低-中</td><td>轻薄抓绒+防滑鞋</td></tr>
-          <tr><td>D5</td><td>阳朔→柳州</td><td>柳州 25–29℃ / 19–22℃</td><td>中</td><td>晚间江面风大，带薄外套</td></tr>
-          <tr><td>D6</td><td>柳州→南宁</td><td>南宁 26–30℃ / 20–23℃</td><td>中</td><td>返程留出雨备时长</td></tr>
-        </tbody>
-      </table>
-      <div class="note">注：为往年国庆常见体感区间，实际以临近7天预报为准。</div>
-    </section>
+    
 
-    <section id="traffic" class="card">
-      <h2>交通细则（示例固定时刻与价格）</h2>
-      <details open>
-        <summary>D1 成都 → 南宁 航班</summary>
-        <div class="content">
-          - 去程：<b>10:20–12:35</b>（直飞，2h15m 左右）
-          - 机场 → 市区：机场大巴 <b>￥25</b> · 70m；地铁/打车视拥堵 60–90m。
-        </div>
-      </details>
-      <details>
-        <summary>D2 南宁东 → 柳州 动车</summary>
-        <div class="content">
-          - 示例车次：<b>D8xxx 13:00–14:20</b>（二等约 <b>￥70–100</b>）。
-        </div>
-      </details>
-      <details>
-        <summary>D3 柳州 → 阳朔（直达优先）</summary>
-        <div class="content">
-          - 直达：<b>柳州→阳朔</b> 部分车次 <b>1.5–2h</b>，二等 <b>￥65–90</b>；
-          - 备选：柳州→（桂林/桂林北）→阳朔，总时长约 <b>2–2.5h</b>。
-        </div>
-      </details>
-      <details>
-        <summary>D6 阳朔 → 桂林两江机场 → 成都（晚航班）</summary>
-        <div class="content">
-          - 阳朔 → 机场：专线/大巴/打车 <b>1.5–2h</b>；
-          - 返程：<b>20:30–22:40</b> 桂林两江 → 成都（直飞示例）。
-        </div>
-      </details>
-    </section>
+    
 
-    <section id="hotels" class="card">
-      <h2>高分住宿推荐（含位置）</h2>
-      <table class="table">
-        <thead><tr><th>城市</th><th>酒店</th><th>位置/地址</th><th>预算</th><th>适合人群</th></tr></thead>
-        <tbody>
-          <tr><td>南宁</td><td>全季酒店·南宁东站店</td><td>青秀区 凤岭北路一带（近南宁东站B口）</td><td>￥280–380</td><td>火车接驳、静音休息</td></tr>
-          <tr><td>南宁</td><td>亚朵酒店·万象城/东站片区</td><td>青秀区 民族大道万象城周边</td><td>￥320–420</td><td>逛商场+美食</td></tr>
-          <tr><td>阳朔</td><td>阳朔益田西街酒店</td><td>西街口 城中路1号</td><td>￥320–420</td><td>步行玩西街，夜生活</td></tr>
-          <tr><td>阳朔</td><td>十里画廊景观民宿（多家）</td><td>十里画廊/遇龙河片区</td><td>￥260–400</td><td>自然景观、安静</td></tr>
-          <tr><td>柳州</td><td>东城华美达广场酒店</td><td>城中区 解放北路，临柳江</td><td>￥300–420</td><td>夜游柳江步行可达</td></tr>
-          <tr><td>柳州</td><td>柳州万达嘉华/希尔顿欢朋</td><td>鱼峰/柳北 主要商圈</td><td>￥280–420</td><td>设施齐全，交通便捷</td></tr>
-        </tbody>
-      </table>
-      <div class="note">需要我按你常用平台的评分（携程/飞猪/美团）筛选TOP10酒店并给出链接吗？</div>
-    </section>
+    <!-- 住宿与美食均已融合到行程中（上方），地图已展示对应点位 -->
 
-    <section id="foods" class="card">
-      <h2>美食清单（每城10+｜位置/人均/时段）</h2>
-      <h3>南宁</h3>
-      <ul class="list">
-        <li data-pan="中山路美食街参考点"><b>中山路美食街</b>（青秀区 中山路）｜￥20–60｜18:00-24:00</li>
-        <li><b>舒记老友粉（七星路）</b>｜￥18–28｜06:30–22:00</li>
-        <li><b>覃记柠檬鸭（民族大道）</b>｜￥70–120｜11:00–22:00</li>
-        <li><b>坛子江牛杂</b>（民族大道/朝阳商圈）｜￥40–80｜11:00–22:30</li>
-        <li><b>黄氏粉饺</b>（中山路口）｜￥12–20｜18:00–24:00</li>
-        <li><b>老友粉·李姐店</b>（朝阳)｜￥16–26｜06:30–21:30</li>
-        <li><b>唐人烧腊</b>（星湖路）｜￥35–60｜10:30–21:00</li>
-        <li><b>王姐螺蛳粉</b>（建政路）｜￥18–25｜10:00–22:00</li>
-        <li><b>老牌糖水铺</b>（南宁百货旁)｜￥10–20｜12:00–23:00</li>
-        <li><b>老表烧烤摊</b>（中山路内)｜￥30–80｜19:00–02:00</li>
-      </ul>
-      <h3>阳朔</h3>
-      <ul class="list">
-        <li data-pan="阳朔西街"><b>西街美食圈</b>（城中路/碧莲巷）｜￥30–120｜11:00–23:00</li>
-        <li><b>大师兄啤酒鱼</b>（西街）｜￥60–100｜11:00–22:00</li>
-        <li><b>月亮妈妈农家饭</b>（十里画廊）｜￥50–90｜11:00–21:00</li>
-        <li><b>阿甘野生菜</b>（兴坪）｜￥50–100｜11:00–21:00</li>
-        <li><b>椿记烧鹅（阳朔店）</b>｜￥70–120｜11:00–21:30</li>
-        <li><b>桥头田螺酿</b>（西街口）｜￥25–45｜11:00–22:00</li>
-        <li><b>猫儿山米粉</b>（县城）｜￥12–20｜07:00–20:30</li>
-        <li><b>遇龙河农家宴</b>（遇龙河沿线）｜￥60–120｜11:00–20:00</li>
-        <li><b>芒果糯米饭小铺</b>（西街）｜￥12–25｜12:00–22:30</li>
-        <li><b>兴坪渔村江鱼</b>（兴坪古镇）｜￥60–120｜11:00–20:30</li>
-      </ul>
-      <h3>柳州</h3>
-      <ul class="list">
-        <li data-pan="老柳州螺蛳粉（荣军店）"><b>老柳州螺蛳粉（荣军店）</b>（荣军路355号）｜￥18–28｜10:30–02:00</li>
-        <li><b>螺师傅</b>（多店）｜￥16–26｜10:00–22:00</li>
-        <li><b>螺霸王直营店</b>（多店）｜￥16–28｜10:00–22:30</li>
-        <li><b>柳州阿三哥牛杂粉</b>（城中区）｜￥18–30｜07:00–21:00</li>
-        <li><b>露水汤圆</b>（青云路夜市）｜￥8–15｜18:00–23:30</li>
-        <li><b>酸嘢集合摊</b>（解放路）｜￥10–20｜17:00–23:00</li>
-        <li><b>老表烤串</b>（滨江路）｜￥30–80｜19:00–01:30</li>
-        <li><b>柳州鸭脚煲</b>（桂中大道）｜￥60–100｜11:00–22:00</li>
-        <li><b>豆油米粉</b>（谷埠街附近）｜￥10–16｜06:30–20:00</li>
-        <li><b>甜酒冲蛋</b>（胜利路小吃）｜￥8–12｜14:00–22:00</li>
-      </ul>
-      <div class="note">参考博主与平台清单已记录，后续可逐条核对并补充坐标与链接：
-        <a href="https://mp.weixin.qq.com/s/5xj46BU88_2pqRcL9c1K7A?scene=1" target="_blank">微信笔记</a> ·
-        <a href="https://www.douyin.com/user/MS4wLjABAAAAsjfXs7zFKUPZeXmCV87e1t-Vp7nA0bWvSE9XjbdrVRU" target="_blank">抖音参考1</a> ·
-        <a href="https://www.douyin.com/user/MS4wLjABAAAAoFTCT4kE7L5u-chiEMarhe50AXaOphcVC4opSe2PP-0" target="_blank">抖音参考2</a> ·
-        <a href="https://www.douyin.com/user/MS4wLjABAAAAiIgInr1epUraGE3ArEA7Re2TFcm9B47fRZjKZ1ssxM8i6M_qORtpwASbQoF7HVw8" target="_blank">抖音参考3</a>
-      </div>
-    </section>
-
-    <section id="tips" class="card">
-      <h2>出行建议（可直接照做）</h2>
+    <section id="tips" class="card fade-in-up">
+      <h2>出行建议</h2>
       <ul class="list">
         <li><b>购票节奏</b>：先锁机票后排高铁；高铁优先直达“阳朔站”的车次，买不到再拆桂林/桂林北中转。</li>
         <li><b>接驳缓冲</b>：动→飞至少预留2.5小时（南宁东→吴圩），飞→动预留3小时；节日路况加0.5小时。</li>
         <li><b>相公山</b>：日出位紧张，前一晚联系接驳；山路湿滑，带防滑鞋与薄抓绒。</li>
         <li><b>骑行/竹筏</b>：租车先查刹车/灯；竹筏受水位与天气管控，遇停航即改骑行与田园摄影线。</li>
-        <li><b>配色个性化</b>：若你有主色偏好（如 #1677ff / #10b981 / #f43f5e），我可切换主题色与按钮样式。</li>
+        
       </ul>
       <div class="note">更多灵感可参考：
         <a href="https://mp.weixin.qq.com/s/BzAVZbUVw6xGNbUYrxK2jA?scene=1&click_id=1" target="_blank">行程灵感1</a>
       </div>
     </section>
 
-    <footer class="note" style="text-align:center;margin-top:26px;padding:14px;border-top:1px solid var(--line)">
-      地图与坐标：高德POI与公开信息；价格/时段为常见区间，最终以现场与官方为准。
+    <footer class="note" style="text-align:center;margin-top:26px;padding:14px;border-top:1px solid var(--line);background:rgba(255,255,255,.92);backdrop-filter:blur(10px);border-radius:12px">
+      <span style="color:#0f172a;">地图与坐标：高德POI与公开信息；价格/时段为常见区间，最终以现场与官方为准。</span>
     </footer>
   </main>
 
-  <!-- Share Map Modal -->
-  <div class="overlay" id="overlay" role="dialog" aria-modal="true" aria-labelledby="shareTitle">
-    <div class="modal">
-      <div class="modal-h">
-        <div id="shareTitle"><b>分享地图</b></div>
-        <button class="btn" onclick="closeShareModal()">关闭</button>
-      </div>
-      <div class="modal-b">
-        <div class="qr">
-          <img id="qrImg" alt="地图分享二维码（手机扫码打开网页）"/>
-          <div>
-            <p class="note" id="shareUrlText" style="margin:0 0 6px;word-break:break-all"></p>
-            <div class="cta" style="margin-top:6px">
-              <a class="btn accent" id="openShare" target="_blank" rel="noopener">在浏览器打开</a>
-              <button class="btn" onclick="copyShareLink()">复制地图链接</button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="modal-f">
-        <button class="btn" onclick="copyShareLink()">复制链接</button>
-        <button class="btn primary" onclick="closeShareModal()">完成</button>
-      </div>
-    </div>
-  </div>
+  
 
   <div class="toast" id="toast">已复制</div>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 <script>
-// ===== Share web URL (Gaode uri.amap.com) =====
-const overlay = document.getElementById('overlay');
-const qrImg = document.getElementById('qrImg');
-const shareUrlText = document.getElementById('shareUrlText');
-const openShareA = document.getElementById('openShare');
 const toast = document.getElementById('toast');
 function showToast(msg){toast.textContent = msg;toast.classList.add('show');setTimeout(()=>toast.classList.remove('show'),1400)}
-function buildAmapWebUrl(ps){
-  const positions = ps.map(p=>`${p.lon},${p.lat}`).join(';');
-  const names = ps.map(p=>encodeURIComponent(p.name)).join(';');
-  return `https://uri.amap.com/marker?positions=${positions}&names=${names}&src=trip&callnative=0`;
+// simple reveal animation
+function inViewReveal(){
+  const els = document.querySelectorAll('.fade-in-up');
+  const vh = window.innerHeight || document.documentElement.clientHeight;
+  els.forEach(el=>{
+    const rect = el.getBoundingClientRect();
+    if(rect.top < vh - 60){ el.classList.add('in'); }
+  })
 }
-function openShareModal(){
-  shareUrlText.textContent = currentShareLink;
-  openShareA.href = currentShareLink;
-  qrImg.src = 'https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=' + encodeURIComponent(currentShareLink);
-  overlay.style.display = 'flex';
-}
-function closeShareModal(){overlay.style.display='none'}
-function copyShareLink(){navigator.clipboard.writeText(currentShareLink).then(()=>showToast('已复制地图链接'))}
-function setTheme(accent, weak){
-  document.documentElement.style.setProperty('--accent', accent);
-  document.documentElement.style.setProperty('--accent-weak', weak||'#e8f0ff');
-}
-function switchPlan(which){
-  document.getElementById('plan6').style.display = which==='d6'?'block':'none';
-  document.getElementById('plan7').style.display = which==='d7'?'block':'none';
-}
+window.addEventListener('scroll', inViewReveal, {passive:true});
+window.addEventListener('load', ()=>{
+  inViewReveal();
+  // smooth anchor enhancement with offset
+  document.querySelectorAll('a[href^="#"]').forEach(a=>{
+    a.addEventListener('click', (e)=>{
+      const target = document.querySelector(a.getAttribute('href'));
+      if(target){
+        e.preventDefault();
+        const top = target.getBoundingClientRect().top + window.pageYOffset - 80;
+        window.scrollTo({top, behavior:'smooth'});
+      }
+    })
+  })
+  // brand click to top
+  const brand = document.getElementById('brandTop');
+  if(brand){
+    brand.addEventListener('click', ()=>{
+      window.scrollTo({top:0, behavior:'smooth'});
+    })
+  }
+});
 // ===== Map (Leaflet + OSM) =====
-const map = L.map('map', {scrollWheelZoom:true}).setView([24.4,109.6], 7);
+const map = L.map('map', {scrollWheelZoom:true, dragging:true, tap:false, inertia:true}).setView([24.4,109.6], 7);
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom: 18, attribution: '&copy; OpenStreetMap'}).addTo(map);
 
 // category layers
@@ -407,11 +380,16 @@ const layerStay = L.featureGroup().addTo(map);
 
 const points = [
   {name:'中山路美食街参考点',lat:22.810380,lon:108.324606,cat:'美食'},
+  {name:'复记老友粉（中山路）',lat:22.810380,lon:108.324606,cat:'美食'},
+  {name:'阿香柠檬鸭（中山路）',lat:22.810380,lon:108.324606,cat:'美食'},
+  {name:'黄氏粉饺（中山路口）',lat:22.810380,lon:108.324606,cat:'美食'},
+  {name:'老表烧烤摊（中山路）',lat:22.810380,lon:108.324606,cat:'美食'},
   {name:'南宁吴圩国际机场',lat:22.601718,lon:108.187631,cat:'交通'},
   {name:'南宁东站',lat:22.841826,lon:108.413527,cat:'交通'},
   {name:'青秀山',lat:22.788660,lon:108.395254,cat:'景点'},
   {name:'阳朔站',lat:24.960139,lon:110.568081,cat:'交通'},
   {name:'阳朔西街',lat:24.773869,lon:110.493986,cat:'景点'},
+  {name:'大师兄啤酒鱼（西街）',lat:24.773869,lon:110.493986,cat:'美食'},
   {name:'遇龙河景区',lat:24.777530,lon:110.433115,cat:'景点'},
   {name:'相公山',lat:24.922144,lon:110.482439,cat:'景点'},
   {name:'兴坪古镇',lat:24.916611,lon:110.530606,cat:'景点'},
@@ -437,32 +415,25 @@ stays.forEach(s=>{
   const c = L.circle([s.lat,s.lon],{radius:s.r,color:'#94a3b8'}).bindPopup(`<b>${s.name}</b>`);
   layerStay.addLayer(c);
 });
-const groupAll = L.featureGroup([layerTraffic,layerSight,layerFood]);
-map.fitBounds(groupAll.getBounds().pad(0.2));
+const allForFit = L.featureGroup([layerTraffic,layerSight,layerFood,layerStay]);
+try{ map.fitBounds(allForFit.getBounds().pad(0.2)); }catch(e){}
 
 // filters
 function applyFilters(){
-  if(document.getElementById('filterTraffic').checked){map.addLayer(layerTraffic)}else{map.removeLayer(layerTraffic)}
-  if(document.getElementById('filterSight').checked){map.addLayer(layerSight)}else{map.removeLayer(layerSight)}
-  if(document.getElementById('filterFood').checked){map.addLayer(layerFood)}else{map.removeLayer(layerFood)}
-  if(document.getElementById('filterStay').checked){map.addLayer(layerStay)}else{map.removeLayer(layerStay)}
+  const ft = document.getElementById('filterTraffic');
+  const fs = document.getElementById('filterSight');
+  const ff = document.getElementById('filterFood');
+  const fy = document.getElementById('filterStay');
+  if(ft && ft.checked){map.addLayer(layerTraffic)}else{map.removeLayer(layerTraffic)}
+  if(fs && fs.checked){map.addLayer(layerSight)}else{map.removeLayer(layerSight)}
+  if(ff && ff.checked){map.addLayer(layerFood)}else{map.removeLayer(layerFood)}
+  if(fy && fy.checked){map.addLayer(layerStay)}else{map.removeLayer(layerStay)}
 }
-['filterTraffic','filterSight','filterFood','filterStay'].forEach(id=>document.getElementById(id).addEventListener('change',applyFilters));
+['filterTraffic','filterSight','filterFood','filterStay'].forEach(id=>{
+  const el = document.getElementById(id);
+  if(el){ el.addEventListener('change',applyFilters); }
+});
 applyFilters();
-
-// build share from visible markers
-function getVisibleMarkers(){
-  const arr=[];
-  [layerTraffic,layerSight,layerFood].forEach(layer=>{
-    layer.eachLayer(l=>{if(map.hasLayer(layer)) arr.push({name:l.getPopup().getContent().split('<br')[0].replace('<b>','').replace('</b>',''), lat:l.getLatLng().lat, lon:l.getLatLng().lng})});
-  });
-  return arr;
-}
-let currentShareLink = buildAmapWebUrl(getVisibleMarkers());
-function regenShare(){
-  currentShareLink = buildAmapWebUrl(getVisibleMarkers());
-  showToast('已更新地图分享链接');
-}
 
 // import custom POI
 function importPOI(){
@@ -480,8 +451,14 @@ function importPOI(){
     else if(p.cat==='住宿') layerStay.addLayer(m);
     else layerSight.addLayer(m);
   });
-  map.fitBounds(getVisibleMarkers().map(x=>[x.lat,x.lon]));
-  regenShare();
+  // 根据当前可见图层自动调整视图
+  const fit = [];
+  [layerTraffic,layerSight,layerFood,layerStay].forEach(layer=>{
+    if(map.hasLayer(layer)){
+      layer.eachLayer(l=>fit.push([l.getLatLng().lat,l.getLatLng().lng]));
+    }
+  })
+  if(fit.length){ map.fitBounds(fit); }
 }
 
 // simple pan-to-marker from lists
@@ -494,8 +471,7 @@ for(const li of document.querySelectorAll('[data-pan]')){
     if(m){ map.setView(m.getLatLng(), 13, {animate:true}); m.openPopup(); }
   })
 }
-// init theme
-setTheme(getComputedStyle(document.documentElement).getPropertyValue('--accent').trim(), getComputedStyle(document.documentElement).getPropertyValue('--accent-weak').trim());
+// init done
 </script>
 </body>
 </html>
