@@ -875,12 +875,21 @@
             .nav-content {
                 flex-direction: column;
                 align-items: stretch;
-                gap: 1.5rem;
+                gap: 1rem;
             }
             
             .nav-links {
-                gap: 1.5rem;
+                gap: 0.8rem;
                 justify-content: center;
+                flex-wrap: wrap;
+            }
+            
+            .nav-links a {
+                padding: 0.6rem 1rem;
+                font-size: 0.9rem;
+                flex: 0 1 auto;
+                min-width: 70px;
+                text-align: center;
             }
             
             .timeline-item {
@@ -1040,9 +1049,45 @@
             }
             
             /* 地图移动端优化 */
+            .map-wrapper {
+                height: 400px;
+            }
+            
             #map {
-                height: 350px;
+                height: 100%;
                 border-radius: var(--radius-sm);
+            }
+            
+            .map-overlay {
+                position: absolute;
+                top: 0.5rem;
+                right: 0.5rem;
+                left: 0.5rem;
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 0.4rem;
+                justify-items: center;
+            }
+            
+            .map-control {
+                padding: 0.4rem 0.6rem;
+                font-size: 0.75rem;
+                min-width: auto;
+                flex: 0 0 auto;
+                border-radius: 15px;
+                width: 100%;
+                max-width: 120px;
+                justify-content: center;
+            }
+            
+            .map-control input[type="checkbox"] {
+                width: 14px;
+                height: 14px;
+            }
+            
+            .map-control label {
+                font-size: 0.75rem;
+                white-space: nowrap;
             }
             
             /* 时间线移动端优化 */
@@ -1108,6 +1153,81 @@
                 padding: 6px 10px;
                 font-size: 0.9rem;
             }
+            
+            /* 小屏幕导航优化 */
+            .nav-links {
+                gap: 0.5rem;
+            }
+            
+            .nav-links a {
+                padding: 0.5rem 0.7rem;
+                font-size: 0.8rem;
+                min-width: 60px;
+            }
+            
+            /* 小屏幕地图进一步优化 */
+            .map-wrapper {
+                height: 350px;
+            }
+            
+            .map-overlay {
+                top: 0.3rem;
+                right: 0.3rem;
+                left: 0.3rem;
+                gap: 0.3rem;
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .map-control {
+                padding: 0.3rem 0.5rem;
+                font-size: 0.65rem;
+                border-radius: 12px;
+                max-width: 100px;
+            }
+            
+            .map-control input[type="checkbox"] {
+                width: 12px;
+                height: 12px;
+            }
+            
+            .map-control label {
+                font-size: 0.65rem;
+            }
+        }
+        
+        /* 极小屏幕优化 (360px以下) */
+        @media (max-width: 360px) {
+            .nav-links {
+                gap: 0.3rem;
+            }
+            
+            .nav-links a {
+                padding: 0.4rem 0.5rem;
+                font-size: 0.75rem;
+                min-width: 50px;
+            }
+            
+            .map-overlay {
+                top: 0.2rem;
+                right: 0.2rem;
+                left: 0.2rem;
+                gap: 0.2rem;
+            }
+            
+            .map-control {
+                padding: 0.25rem 0.4rem;
+                font-size: 0.6rem;
+                max-width: 90px;
+            }
+            
+            .map-control input[type="checkbox"] {
+                width: 10px;
+                height: 10px;
+            }
+            
+            .map-control label {
+                font-size: 0.6rem;
+            }
         }
     </style>
 </head>
@@ -1120,6 +1240,7 @@
                 南宁-柳州-阳朔之旅
             </div>
             <div class="nav-links">
+                <a href="#weather">天气</a>
                 <a href="#mapsec">地图导览</a>
                 <a href="#plan">精选行程</a>
                 <a href="#budget">预算概览</a>
@@ -1258,7 +1379,32 @@
                                 </div>
                             </div>
                             <div class="timeline-item">
-                                <div class="timeline-time">16:00</div>
+                                <div class="timeline-time">15:00</div>
+                                <div class="timeline-content">
+                                    <div class="timeline-title">南宁特色午餐</div>
+                                    <div class="timeline-desc">品尝地道南宁午餐</div>
+                                    <div class="food-recommendations">
+                                        <div class="food-item">
+                                            <strong>舒记老友粉</strong> - 共和路35号 | 人均¥18-30 | 营业时间：7:00-22:00<br>
+                                            <small>老字号店铺，汤头浓郁，配菜丰富</small>
+                                        </div>
+                                        <div class="food-item">
+                                            <strong>粉虫</strong> - 建政路菜市场 | 人均¥12-20 | 营业时间：6:00-14:00<br>
+                                            <small>南宁特色小食，口感Q弹，配汤鲜美</small>
+                                        </div>
+                                        <div class="food-item">
+                                            <strong>生榨米粉</strong> - 朝阳路 | 人均¥15-25 | 营业时间：7:00-15:00<br>
+                                            <small>现榨现煮，米香浓郁，配菜新鲜</small>
+                                        </div>
+                                    </div>
+                                    <div class="timeline-badges">
+                                        <span class="badge time">1小时</span>
+                                        <span class="badge price">¥50-75（2人）</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-time">16:30</div>
                                 <div class="timeline-content">
                                     <div class="timeline-title">青秀山风景区</div>
                                     <div class="timeline-desc">游览南宁市的"绿肺"，登高望远，感受绿城魅力</div>
@@ -1282,10 +1428,43 @@
                                             <strong>阿香柠檬鸭</strong> - 中山路美食街内 | 人均¥35-50 | 营业时间：11:00-22:00<br>
                                             <small>柠檬鸭鲜嫩爽口，酸甜适中，南宁特色菜</small>
                                         </div>
+                                        <div class="food-item">
+                                            <strong>卷筒粉</strong> - 中山路夜市 | 人均¥8-15 | 营业时间：18:00-24:00<br>
+                                            <small>南宁街头小食，薄如纸张，配菜丰富</small>
+                                        </div>
+                                        <div class="food-item">
+                                            <strong>白切鸡</strong> - 中山路老店 | 人均¥25-40 | 营业时间：17:00-23:00<br>
+                                            <small>南宁传统菜，鸡肉嫩滑，蘸料独特</small>
+                                        </div>
                                     </div>
                                     <div class="timeline-badges">
                                         <span class="badge time">2小时</span>
-                                        <span class="badge price">¥100-150（2人）</span>
+                                        <span class="badge price">¥150-220（2人）</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-time">22:00</div>
+                                <div class="timeline-content">
+                                    <div class="timeline-title">夜宵小食</div>
+                                    <div class="timeline-desc">体验南宁夜生活，品尝各种夜宵</div>
+                                    <div class="food-recommendations">
+                                        <div class="food-item">
+                                            <strong>八珍粉</strong> - 兴宁路 | 人均¥20-35 | 营业时间：20:00-2:00<br>
+                                            <small>配料丰富，营养全面，南宁人的最爱</small>
+                                        </div>
+                                        <div class="food-item">
+                                            <strong>烧烤摊</strong> - 中山路夜市 | 人均¥30-50 | 营业时间：19:00-3:00<br>
+                                            <small>各种烤串，配啤酒，夜宵首选</small>
+                                        </div>
+                                        <div class="food-item">
+                                            <strong>糖水店</strong> - 解放路 | 人均¥12-20 | 营业时间：19:00-1:00<br>
+                                            <small>绿豆沙、红豆沙，清热解腻</small>
+                                        </div>
+                                    </div>
+                                    <div class="timeline-badges">
+                                        <span class="badge time">1小时</span>
+                                        <span class="badge price">¥60-100（2人）</span>
                                     </div>
                                 </div>
                             </div>
@@ -1301,6 +1480,27 @@
                             </div>
                         </div>
                         <div class="day-timeline">
+                            <div class="timeline-item">
+                                <div class="timeline-time">09:30</div>
+                                <div class="timeline-content">
+                                    <div class="timeline-title">南宁早餐</div>
+                                    <div class="timeline-desc">品尝南宁传统早餐</div>
+                                    <div class="food-recommendations">
+                                        <div class="food-item">
+                                            <strong>南宁包子</strong> - 酒店附近早餐店 | 人均¥8-15 | 营业时间：6:00-10:00<br>
+                                            <small>皮薄馅大，汤汁丰富，配豆浆或粥</small>
+                                        </div>
+                                        <div class="food-item">
+                                            <strong>白粥配咸菜</strong> - 传统早餐店 | 人均¥6-12 | 营业时间：6:00-11:00<br>
+                                            <small>清淡养胃，搭配各种小菜</small>
+                                        </div>
+                                    </div>
+                                    <div class="timeline-badges">
+                                        <span class="badge time">30分钟</span>
+                                        <span class="badge price">¥20-35（2人）</span>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="timeline-item">
                                 <div class="timeline-time">11:00</div>
                                 <div class="timeline-content">
@@ -1356,7 +1556,32 @@
                                 </div>
                             </div>
                             <div class="timeline-item">
-                                <div class="timeline-time">20:30</div>
+                                <div class="timeline-time">19:30</div>
+                                <div class="timeline-content">
+                                    <div class="timeline-title">柳州特色晚餐</div>
+                                    <div class="timeline-desc">品尝柳州地道菜肴</div>
+                                    <div class="food-recommendations">
+                                        <div class="food-item">
+                                            <strong>柳州酿豆腐</strong> - 柳江边餐厅 | 人均¥25-40 | 营业时间：17:00-22:00<br>
+                                            <small>柳州传统菜，豆腐嫩滑，肉馅鲜美</small>
+                                        </div>
+                                        <div class="food-item">
+                                            <strong>柳州白切鸭</strong> - 老字号餐厅 | 人均¥30-45 | 营业时间：16:00-22:00<br>
+                                            <small>鸭肉鲜嫩，蘸料独特，柳州名菜</small>
+                                        </div>
+                                        <div class="food-item">
+                                            <strong>柳州炒河粉</strong> - 街边小店 | 人均¥15-25 | 营业时间：17:00-24:00<br>
+                                            <small>河粉爽滑，配菜丰富，炒制香浓</small>
+                                        </div>
+                                    </div>
+                                    <div class="timeline-badges">
+                                        <span class="badge time">1.5小时</span>
+                                        <span class="badge price">¥120-180（2人）</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-time">21:30</div>
                                 <div class="timeline-content">
                                     <div class="timeline-title">百里柳江夜游</div>
                                     <div class="timeline-desc">乘坐游船欣赏柳江两岸璀璨灯火，感受工业城市的浪漫夜景</div>
@@ -1366,12 +1591,116 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="timeline-item">
+                                <div class="timeline-time">23:00</div>
+                                <div class="timeline-content">
+                                    <div class="timeline-title">柳州夜宵</div>
+                                    <div class="timeline-desc">体验柳州夜生活</div>
+                                    <div class="food-recommendations">
+                                        <div class="food-item">
+                                            <strong>水油堆</strong> - 柳江边小摊 | 人均¥8-15 | 营业时间：20:00-2:00<br>
+                                            <small>柳州特色小食，外酥内软，香甜可口</small>
+                                        </div>
+                                        <div class="food-item">
+                                            <strong>柳州烧烤</strong> - 夜市摊位 | 人均¥25-40 | 营业时间：19:00-3:00<br>
+                                            <small>各种烤串，配柳州啤酒，夜宵经典</small>
+                                        </div>
+                                    </div>
+                                    <div class="timeline-badges">
+                                        <span class="badge time">1小时</span>
+                                        <span class="badge price">¥50-80（2人）</span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
                     <div class="day-section">
                         <div class="day-header">
                             <div class="day-badge">3</div>
+                            <div class="day-info">
+                                <h3>柳州深度游</h3>
+                                <p>工业文化探索，马鞍山登高望远</p>
+                            </div>
+                        </div>
+                        <div class="day-timeline">
+                            <div class="timeline-item">
+                                <div class="timeline-time">10:00</div>
+                                <div class="timeline-content">
+                                    <div class="timeline-title">柳州工业博物馆</div>
+                                    <div class="timeline-desc">了解柳州的工业发展历史，参观汽车制造、钢铁冶金等展品</div>
+                                    <div class="timeline-badges">
+                                        <span class="badge time">2小时</span>
+                                        <span class="badge price">¥80（2人）</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-time">13:00</div>
+                                <div class="timeline-content">
+                                    <div class="timeline-title">特色午餐</div>
+                                    <div class="timeline-desc">品尝更多柳州特色美食</div>
+                                    <div class="food-recommendations">
+                                        <div class="food-item">
+                                            <strong>柳州人家螺蛳粉</strong> - 城中区文昌路 | 人均¥20-30 | 营业时间：8:00-22:00<br>
+                                            <small>本地人推荐，配菜丰富，口味地道</small>
+                                        </div>
+                                        <div class="food-item">
+                                            <strong>水油堆</strong> - 柳江边小摊 | 人均¥8-15 | 营业时间：全天<br>
+                                            <small>柳州特色小食，外酥内软，香甜可口</small>
+                                        </div>
+                                    </div>
+                                    <div class="timeline-badges">
+                                        <span class="badge time">1小时</span>
+                                        <span class="badge price">¥50-80（2人）</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-time">15:00</div>
+                                <div class="timeline-content">
+                                    <div class="timeline-title">马鞍山公园</div>
+                                    <div class="timeline-desc">登高远眺柳州全景，欣赏柳江蜿蜒。马鞍山是柳州市的制高点，可俯瞰整个城市</div>
+                                    <div class="timeline-badges">
+                                        <span class="badge time">2小时</span>
+                                        <span class="badge price">免费</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-time">18:00</div>
+                                <div class="timeline-content">
+                                    <div class="timeline-title">窑埠古镇</div>
+                                    <div class="timeline-desc">体验古镇风情，了解柳州历史文化。古镇保留了明清建筑风格</div>
+                                    <div class="timeline-badges">
+                                        <span class="badge time">1.5小时</span>
+                                        <span class="badge price">免费</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-time">20:00</div>
+                                <div class="timeline-content">
+                                    <div class="timeline-title">柳江夜景晚餐</div>
+                                    <div class="timeline-desc">在江边餐厅享用晚餐，欣赏柳江夜景</div>
+                                    <div class="food-recommendations">
+                                        <div class="food-item">
+                                            <strong>江景餐厅</strong> - 柳江边 | 人均¥40-60 | 营业时间：17:00-23:00<br>
+                                            <small>江景位置绝佳，可边用餐边欣赏夜景</small>
+                                        </div>
+                                    </div>
+                                    <div class="timeline-badges">
+                                        <span class="badge time">1.5小时</span>
+                                        <span class="badge price">¥80-120（2人）</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="day-section">
+                        <div class="day-header">
+                            <div class="day-badge">4</div>
                             <div class="day-info">
                                 <h3>柳州 → 阳朔</h3>
                                 <p>山水画廊初见，西街夜色迷人</p>
@@ -1437,7 +1766,7 @@
 
                     <div class="day-section">
                         <div class="day-header">
-                            <div class="day-badge">4</div>
+                            <div class="day-badge">5</div>
                             <div class="day-info">
                                 <h3>阳朔深度游</h3>
                                 <p>遇龙河竹筏，兴坪古镇探秘</p>
@@ -1501,83 +1830,6 @@
                                     <div class="timeline-badges">
                                         <span class="badge time">1.5小时</span>
                                         <span class="badge price">¥120-160（2人）</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="day-section">
-                        <div class="day-header">
-                            <div class="day-badge">5</div>
-                            <div class="day-info">
-                                <h3>柳州 → 南宁</h3>
-                                <p>探索绿城文化，品味壮乡风情</p>
-                            </div>
-                        </div>
-                        <div class="day-timeline">
-                            <div class="timeline-item">
-                                <div class="timeline-time">11:30</div>
-                                <div class="timeline-content">
-                                    <div class="timeline-title">柳州 → 南宁</div>
-                                    <div class="timeline-desc">搭乘动车前往南宁，12:50抵达南宁东站</div>
-                                    <div class="timeline-badges">
-                                        <span class="badge time">1小时20分</span>
-                                        <span class="badge price">¥140（2人）</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="timeline-item">
-                                <div class="timeline-time">13:30</div>
-                                <div class="timeline-content">
-                                    <div class="timeline-title">入住南宁市区酒店</div>
-                                    <div class="timeline-desc">选择市中心位置，方便游览和购物</div>
-                                    <div class="timeline-badges">
-                                        <span class="badge time">30分钟</span>
-                                        <span class="badge price">¥400-600/晚（2人）</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="timeline-item">
-                                <div class="timeline-time">15:00</div>
-                                <div class="timeline-content">
-                                    <div class="timeline-title">青秀山风景区</div>
-                                    <div class="timeline-desc">游览南宁市的"绿肺"，登高望远，感受绿城魅力。青秀山是南宁的标志性景点</div>
-                                    <div class="timeline-badges">
-                                        <span class="badge time">2.5小时</span>
-                                        <span class="badge price">¥40（2人）</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="timeline-item">
-                                <div class="timeline-time">18:30</div>
-                                <div class="timeline-content">
-                                    <div class="timeline-title">中山路美食街晚餐</div>
-                                    <div class="timeline-desc">品尝南宁特色美食：老友粉、柠檬鸭、卷筒粉</div>
-                                    <div class="food-recommendations">
-                                        <div class="food-item">
-                                            <strong>复记老友粉</strong> - 中山路49号 | 人均¥15-25 | 营业时间：6:00-24:00<br>
-                                            <small>南宁最正宗的老友粉，酸辣开胃，必尝招牌</small>
-                                        </div>
-                                        <div class="food-item">
-                                            <strong>阿香柠檬鸭</strong> - 中山路美食街内 | 人均¥35-50 | 营业时间：11:00-22:00<br>
-                                            <small>柠檬鸭鲜嫩爽口，酸甜适中，南宁特色菜</small>
-                                        </div>
-                                    </div>
-                                    <div class="timeline-badges">
-                                        <span class="badge time">2小时</span>
-                                        <span class="badge price">¥100-150（2人）</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="timeline-item">
-                                <div class="timeline-time">21:00</div>
-                                <div class="timeline-content">
-                                    <div class="timeline-title">民歌湖夜景</div>
-                                    <div class="timeline-desc">欣赏湖光山色，体验壮乡民歌文化。民歌湖是南宁的城市名片</div>
-                                    <div class="timeline-badges">
-                                        <span class="badge time">1小时</span>
-                                        <span class="badge price">免费</span>
                                     </div>
                                 </div>
                             </div>
