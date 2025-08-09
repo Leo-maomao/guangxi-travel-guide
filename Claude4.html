@@ -1,0 +1,2074 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#2563eb">
+    <title>南宁-柳州-阳朔6日之旅 | 成都出发轻松路线</title>
+    <meta name="description" content="成都出发南宁-柳州-阳朔6日轻松游：简化路线设计、详细行程安排、交互地图、特色美食推荐。">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-light: #dbeafe;
+            --secondary: #64748b;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --white: #ffffff;
+            --border: #e2e8f0;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+            --radius: 16px;
+            --radius-sm: 8px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            line-height: 1.7;
+            color: var(--dark);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        /* 顶部导航栏 - 优雅精致 */
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .nav-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.75rem;
+            font-weight: 800;
+            color: var(--primary);
+            letter-spacing: -0.02em;
+        }
+
+        .brand i {
+            font-size: 2rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            font-weight: 600;
+            color: var(--dark);
+            padding: 0.75rem 1.2rem;
+            border-radius: var(--radius-sm);
+            transition: all 0.3s ease;
+            position: relative;
+            font-size: 1.05rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+
+        .nav-links a::before {
+            content: '';
+            width: 5px;
+            height: 5px;
+            background: var(--primary);
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: scale(0);
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+            background: var(--primary-light);
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(37, 99, 235, 0.15);
+        }
+        
+        .nav-links a:hover::before {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+
+
+        /* 主容器 - 单列布局 */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            gap: 3rem;
+        }
+
+        /* 天气预报区域 */
+        .weather-section {
+            background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
+            color: white;
+            padding: 3rem 0;
+            margin-bottom: 2rem;
+        }
+
+        .weather-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        .weather-header h2 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .weather-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(255,255,255,0.2);
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+        }
+
+        .date-selector {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .date-btn {
+            background: rgba(255,255,255,0.15);
+            border: 1px solid rgba(255,255,255,0.3);
+            color: white;
+            padding: 0.75rem 1rem;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            font-size: 0.9rem;
+            position: relative;
+        }
+
+        .date-btn:hover {
+            background: rgba(255,255,255,0.25);
+            border-color: rgba(255,255,255,0.5);
+            transform: translateY(-2px);
+        }
+        
+        .date-btn.active {
+            background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(255,255,255,0.7));
+            border-color: rgba(255,255,255,0.8);
+            color: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(255,255,255,0.3);
+            font-weight: 700;
+        }
+        
+        .date-btn.active::before {
+            content: '✓';
+            position: absolute;
+            top: -6px;
+            right: -6px;
+            background: var(--success);
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 11px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            box-shadow: 0 2px 8px rgba(5, 150, 105, 0.4);
+        }
+
+        .weather-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .weather-day {
+            background: rgba(255,255,255,0.15);
+            padding: 2rem;
+            border-radius: var(--radius);
+            text-align: center;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .weather-day:hover {
+            background: rgba(255,255,255,0.25);
+            transform: translateY(-4px);
+        }
+
+        .weather-city {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .weather-temp {
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 0.75rem;
+        }
+
+        .weather-condition {
+            font-size: 1rem;
+            opacity: 0.8;
+        }
+
+        /* 英雄区域 - 震撼视觉 */
+        .hero {
+            background: linear-gradient(135deg, rgba(255,255,255,0.98) 0%, rgba(255,255,255,0.95) 100%);
+            backdrop-filter: blur(20px);
+            border-radius: var(--radius);
+            padding: 5rem 4rem;
+            text-align: center;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid rgba(255,255,255,0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary), #8b5cf6, var(--success));
+        }
+
+        .hero-title {
+            font-size: clamp(3rem, 6vw, 4rem);
+            font-weight: 900;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--primary), #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.03em;
+        }
+
+        .hero-subtitle {
+            font-size: 1.4rem;
+            color: var(--secondary);
+            margin-bottom: 3rem;
+            font-weight: 400;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+        }
+
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 2rem;
+            margin: 4rem 0 3rem;
+        }
+
+        .stat-card {
+            background: rgba(255,255,255,0.9);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 2.5rem 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--primary);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .stat-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 1.1rem;
+            color: var(--secondary);
+            font-weight: 500;
+        }
+
+        /* 卡片样式 - 现代精美 */
+        .card {
+            background: rgba(255,255,255,0.98);
+            backdrop-filter: blur(20px);
+            border-radius: var(--radius);
+            padding: 3rem;
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(255,255,255,0.3);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-4px);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            margin-bottom: 2.5rem;
+            padding-bottom: 2rem;
+            border-bottom: 2px solid var(--primary-light);
+        }
+
+        .card-icon {
+            width: 64px;
+            height: 64px;
+            background: linear-gradient(135deg, var(--primary), #8b5cf6);
+            color: white;
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.75rem;
+            box-shadow: var(--shadow);
+        }
+
+        .card-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--dark);
+            letter-spacing: -0.02em;
+        }
+
+        /* 行程时间线 - 专业美观 */
+        .timeline {
+            position: relative;
+        }
+
+        .day-section {
+            margin-bottom: 4rem;
+            position: relative;
+        }
+
+        .day-header {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            padding: 2.5rem;
+            background: linear-gradient(135deg, var(--primary-light), rgba(255,255,255,0.9));
+            border-radius: var(--radius);
+            border-left: 6px solid var(--primary);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .day-badge {
+            width: 56px;
+            height: 56px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 1.4rem;
+            box-shadow: var(--shadow);
+        }
+
+        .day-info h3 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.01em;
+        }
+
+        .day-info p {
+            color: var(--secondary);
+            font-size: 1.1rem;
+        }
+
+        .day-timeline {
+            margin-left: 4rem;
+            position: relative;
+        }
+
+        .day-timeline::before {
+            content: '';
+            position: absolute;
+            left: -2rem;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(to bottom, var(--primary), var(--primary-light));
+            border-radius: 2px;
+        }
+
+        .timeline-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 2rem;
+            padding: 2rem;
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-sm);
+            margin-bottom: 1.5rem;
+            position: relative;
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+
+        .timeline-item:hover {
+            box-shadow: var(--shadow);
+            transform: translateX(10px);
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -3rem;
+            top: 2.25rem;
+            width: 16px;
+            height: 16px;
+            background: var(--primary);
+            border-radius: 50%;
+            border: 4px solid white;
+            box-shadow: 0 0 0 2px var(--primary);
+        }
+
+        .timeline-time {
+            font-weight: 800;
+            color: var(--primary);
+            font-size: 1.2rem;
+            min-width: 90px;
+        }
+
+        .timeline-content {
+            flex: 1;
+        }
+
+        .timeline-title {
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 0.75rem;
+            font-size: 1.2rem;
+        }
+
+        .timeline-desc {
+            color: var(--secondary);
+            font-size: 1.05rem;
+            line-height: 1.6;
+        }
+
+        .timeline-badges {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            background: var(--primary-light);
+            color: var(--primary);
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .badge.price { background: #fef3c7; color: #d97706; }
+        .badge.time { background: #dcfce7; color: #16a34a; }
+
+        /* 美食推荐样式 */
+        .food-recommendations {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: var(--light);
+            border-radius: var(--radius-sm);
+            border-left: 4px solid var(--success);
+        }
+
+        .food-item {
+            margin-bottom: 0.75rem;
+            padding: 0.75rem;
+            background: white;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border);
+        }
+
+        .food-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .food-item strong {
+            color: var(--success);
+            font-size: 1.05rem;
+        }
+
+        .food-item small {
+            color: var(--secondary);
+            font-style: italic;
+        }
+
+        /* 按钮样式 - 现代交互 */
+        .btn {
+            appearance: none;
+            border: 1px solid var(--border);
+            background: white;
+            color: var(--dark);
+            padding: 1rem 2rem;
+            border-radius: var(--radius);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1rem;
+        }
+
+        .btn:hover {
+            background: var(--light);
+            border-color: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .btn.accent {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+        }
+
+        .btn.accent:hover {
+            background: #1d4ed8;
+            border-color: #1d4ed8;
+        }
+
+        .cta {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            align-items: center;
+            margin-top: 2rem;
+            justify-content: center;
+        }
+
+        /* 地图样式 - 专业展示 */
+        .map-wrapper {
+            position: relative;
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+            height: 550px;
+        }
+
+        #map {
+            height: 100%;
+            width: 100%;
+        }
+
+        .map-overlay {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .map-control {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 1.25rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-size: 0.95rem;
+            font-weight: 500;
+            border: 1px solid var(--border);
+        }
+
+        .map-control input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--primary);
+        }
+
+        /* 预算概览区域 */
+        .budget-section {
+            background: rgba(255,255,255,0.98);
+            backdrop-filter: blur(20px);
+            border-radius: var(--radius);
+            padding: 3rem;
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(255,255,255,0.3);
+            margin-top: 3rem;
+        }
+
+        .budget-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .budget-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem;
+            background: var(--light);
+            border-radius: var(--radius-sm);
+            border-left: 4px solid var(--border);
+            transition: all 0.3s ease;
+        }
+
+        .budget-item:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .budget-category {
+            font-weight: 500;
+            font-size: 1.05rem;
+            color: var(--dark);
+        }
+
+        .budget-amount {
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .budget-amount.primary {
+            color: var(--primary);
+        }
+
+        .budget-amount.success {
+            color: var(--success);
+        }
+
+        .budget-amount.warning {
+            color: var(--warning);
+        }
+
+        .budget-amount.danger {
+            color: var(--danger);
+        }
+
+        .budget-item:nth-child(1) {
+            border-left-color: var(--primary);
+        }
+
+        .budget-item:nth-child(2) {
+            border-left-color: var(--success);
+        }
+
+        .budget-item:nth-child(3) {
+            border-left-color: var(--warning);
+        }
+
+        .budget-item:nth-child(4) {
+            border-left-color: var(--danger);
+        }
+
+        .budget-total {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem;
+            background: linear-gradient(135deg, var(--primary-light), rgba(255,255,255,0.9));
+            border-radius: var(--radius-sm);
+            border: 2px solid var(--primary);
+            box-shadow: var(--shadow-sm);
+            margin-top: 2rem;
+        }
+
+        .budget-total-label {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        .budget-total-amount {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        /* 模态框 - 优雅弹窗 */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(8px);
+            z-index: 10000;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-dialog {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-lg);
+            max-width: 650px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            animation: slideIn 0.3s ease;
+        }
+
+        .modal-header {
+            padding: 2.5rem 2.5rem 1.5rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 1.6rem;
+            font-weight: 700;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.75rem;
+            cursor: pointer;
+            color: var(--secondary);
+            padding: 0.75rem;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .modal-close:hover {
+            background: var(--light);
+            color: var(--dark);
+        }
+
+        .modal-body {
+            padding: 2.5rem;
+        }
+
+        /* 提示信息 - 友好提醒 */
+        .note {
+            font-size: 1rem;
+            color: var(--secondary);
+            margin-top: 1.5rem;
+            padding: 1.5rem;
+            background: var(--light);
+            border-radius: var(--radius-sm);
+            border-left: 5px solid var(--primary);
+            line-height: 1.6;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1.5rem 1rem;
+            }
+            
+            .weather-section {
+                padding: 2rem 0;
+            }
+            
+            .weather-header {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+            
+            .date-selector {
+                justify-content: center;
+            }
+            
+            .hero {
+                padding: 2.5rem 1.5rem;
+            }
+            
+            .hero-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .card {
+                padding: 1.5rem;
+            }
+            
+            .nav-content {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 1.5rem;
+            }
+            
+            .nav-links {
+                gap: 1.5rem;
+                justify-content: center;
+            }
+            
+            .timeline-item {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .timeline-time {
+                min-width: auto;
+                font-size: 1rem;
+            }
+            
+            .budget-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+            
+            .day-timeline {
+                margin-left: 1rem;
+            }
+            
+            .day-timeline::before {
+                left: -0.5rem;
+            }
+            
+            .timeline-item::before {
+                left: -1.25rem;
+            }
+        }
+
+        /* 动画效果 */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            from { 
+                opacity: 0;
+                transform: translate(-50%, -60%);
+            }
+            to { 
+                opacity: 1;
+                transform: translate(-50%, -50%);
+            }
+        }
+
+        /* 页面加载动画 */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* 自定义地图图标样式 */
+        .custom-div-icon {
+            background: transparent !important;
+            border: none !important;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .custom-div-icon i {
+            font-size: 16px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+        
+        /* 锚点定位偏移修复 */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* 为锚点目标添加偏移 */
+        [id] {
+            scroll-margin-top: 100px;
+        }
+        
+        /* H5移动端兼容性优化 */
+        @media (max-width: 768px) {
+            /* 触摸优化 */
+            * {
+                -webkit-tap-highlight-color: rgba(0,0,0,0);
+                -webkit-touch-callout: none;
+                -webkit-user-select: none;
+                -moz-user-select: none;
+                -ms-user-select: none;
+                user-select: none;
+            }
+            
+            /* 允许文本选择 */
+            p, span, div, h1, h2, h3, h4, h5, h6 {
+                -webkit-user-select: text;
+                -moz-user-select: text;
+                -ms-user-select: text;
+                user-select: text;
+            }
+            
+            /* 移动端导航优化 */
+            .navbar {
+                padding: 1rem 0;
+                backdrop-filter: blur(20px);
+            }
+            
+            .nav-content {
+                padding: 0 1rem;
+            }
+            
+            .brand {
+                font-size: 1.2rem;
+            }
+            
+            .nav-links {
+                gap: 1rem;
+            }
+            
+            .nav-links a {
+                padding: 0.5rem 0.8rem;
+                font-size: 0.9rem;
+            }
+            
+            /* 天气区域移动端优化 */
+            .weather-section {
+                padding: 2rem 1rem;
+            }
+            
+            .date-selector {
+                gap: 0.3rem;
+                justify-content: center;
+            }
+            
+            .date-btn {
+                padding: 0.6rem 0.8rem;
+                font-size: 0.8rem;
+                min-width: 70px;
+            }
+            
+            .weather-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            /* 地图移动端优化 */
+            #map {
+                height: 350px;
+                border-radius: var(--radius-sm);
+            }
+            
+            /* 时间线移动端优化 */
+            .timeline-item {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1.5rem;
+            }
+            
+            .timeline-time {
+                font-size: 1.1rem;
+                color: var(--primary);
+                font-weight: 700;
+                text-align: left;
+            }
+            
+            /* 预算区域移动端优化 */
+            .budget-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .budget-item {
+                padding: 1.5rem;
+            }
+            
+            /* 按钮触摸优化 */
+            .btn, .date-btn, .nav-links a {
+                min-height: 44px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            
+            /* 模态框移动端优化 */
+            .modal-dialog {
+                margin: 1rem;
+                max-height: calc(100vh - 2rem);
+                overflow-y: auto;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .weather-section {
+                padding: 1.5rem 1rem;
+            }
+            
+            .date-btn {
+                padding: 0.5rem 0.6rem;
+                font-size: 0.75rem;
+                min-width: 60px;
+            }
+            
+            .timeline-item {
+                padding: 1rem;
+            }
+            
+            .food-item {
+                padding: 6px 10px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-content">
+            <div class="brand">
+                <i class="fas fa-mountain"></i>
+                南宁-柳州-阳朔之旅
+            </div>
+            <div class="nav-links">
+                <a href="#mapsec">地图导览</a>
+                <a href="#plan">精选行程</a>
+                <a href="#budget">预算概览</a>
+            </div>
+
+        </div>
+    </nav>
+
+    <!-- 天气预报 -->
+    <section class="weather-section fade-in-up" id="weather">
+        <div class="container">
+            <div class="weather-header">
+                <div class="weather-icon">
+                    <i class="fas fa-cloud-sun"></i>
+                </div>
+                <h2>国庆期间天气预报</h2>
+                <div class="date-selector">
+                    <button class="date-btn active" data-date="10-01">10月1日</button>
+                    <button class="date-btn" data-date="10-02">10月2日</button>
+                    <button class="date-btn" data-date="10-03">10月3日</button>
+                    <button class="date-btn" data-date="10-04">10月4日</button>
+                    <button class="date-btn" data-date="10-05">10月5日</button>
+                    <button class="date-btn" data-date="10-06">10月6日</button>
+                    <button class="date-btn" data-date="10-07">10月7日</button>
+                </div>
+            </div>
+            <div class="weather-grid" id="weather-content">
+                <div class="weather-day">
+                    <div class="weather-city">南宁</div>
+                    <div class="weather-temp">25-30°C</div>
+                    <div class="weather-condition">多云转晴</div>
+                </div>
+                <div class="weather-day">
+                    <div class="weather-city">柳州</div>
+                    <div class="weather-temp">23-28°C</div>
+                    <div class="weather-condition">晴转多云</div>
+                </div>
+                <div class="weather-day">
+                    <div class="weather-city">阳朔</div>
+                    <div class="weather-temp">22-27°C</div>
+                    <div class="weather-condition">多云</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="container">
+        <main class="main-content">
+
+            <!-- 互动地图 -->
+            <section class="card fade-in-up" id="mapsec">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <i class="fas fa-map"></i>
+                    </div>
+                    <h2 class="card-title">互动地图导览</h2>
+                </div>
+                
+                <div class="map-wrapper">
+                    <div class="map-overlay">
+                        <div class="map-control">
+                            <input type="checkbox" id="filterTraffic" checked>
+                            <label for="filterTraffic">交通枢纽</label>
+                        </div>
+                        <div class="map-control">
+                            <input type="checkbox" id="filterSight" checked>
+                            <label for="filterSight">景点</label>
+                        </div>
+                        <div class="map-control">
+                            <input type="checkbox" id="filterFood" checked>
+                            <label for="filterFood">美食</label>
+                        </div>
+                        <div class="map-control">
+                            <input type="checkbox" id="filterStay" checked>
+                            <label for="filterStay">住宿区域</label>
+                        </div>
+                    </div>
+                    <div id="map"></div>
+                </div>
+                
+                <div class="cta">
+                    <button class="btn" onclick="showCustomPOIModal()">
+                        <i class="fas fa-map-pin"></i>
+                        添加自定义地点
+                    </button>
+                </div>
+                
+                <div class="note">
+                    地图使用 Leaflet + OpenStreetMap，点击景点/美食卡片可在地图上定位。
+                </div>
+            </section>
+
+            <!-- 行程安排 -->
+            <section class="card fade-in-up" id="plan">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <i class="fas fa-route"></i>
+                    </div>
+                    <h2 class="card-title">精选行程安排</h2>
+                </div>
+                
+                <div class="note">
+                    以下为可执行的固定时刻示例，购票时优先选择同时间窗/相近班次；若实际购票不同，可按结构顺延。
+                </div>
+                
+                <div id="itinerary-6" class="timeline">
+                    <div class="day-section">
+                        <div class="day-header">
+                            <div class="day-badge">1</div>
+                            <div class="day-info">
+                                <h3>成都 → 南宁</h3>
+                                <p>初探绿城风情，感受壮乡文化</p>
+                            </div>
+                        </div>
+                        <div class="day-timeline">
+                            <div class="timeline-item">
+                                <div class="timeline-time">10:20</div>
+                                <div class="timeline-content">
+                                    <div class="timeline-title">成都天府机场出发</div>
+                                    <div class="timeline-desc">搭乘上午航班前往南宁，12:35抵达吴圩国际机场</div>
+                                    <div class="timeline-badges">
+                                        <span class="badge time">2小时15分</span>
+                                        <span class="badge price">¥1200-1800（2人）</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-time">13:30</div>
+                                <div class="timeline-content">
+                                    <div class="timeline-title">机场大巴前往市区</div>
+                                    <div class="timeline-desc">乘坐机场大巴到达南宁市区，办理入住手续</div>
+                                    <div class="timeline-badges">
+                                        <span class="badge time">1小时</span>
+                                        <span class="badge price">¥50（2人）</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-time">16:00</div>
+                                <div class="timeline-content">
+                                    <div class="timeline-title">青秀山风景区</div>
+                                    <div class="timeline-desc">游览南宁市的"绿肺"，登高望远，感受绿城魅力</div>
+                                    <div class="timeline-badges">
+                                        <span class="badge time">2小时</span>
+                                        <span class="badge price">¥40（2人）</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-time">19:30</div>
+                                <div class="timeline-content">
+                                    <div class="timeline-title">中山路美食街晚餐</div>
+                                    <div class="timeline-desc">品尝南宁特色美食：老友粉、柠檬鸭、卷筒粉</div>
+                                    <div class="food-recommendations">
+                                        <div class="food-item">
+                                            <strong>复记老友粉</strong> - 中山路49号 | 人均¥15-25 | 营业时间：6:00-24:00<br>
+                                            <small>南宁最正宗的老友粉，酸辣开胃，必尝招牌</small>
+                                        </div>
+                                        <div class="food-item">
+                                            <strong>阿香柠檬鸭</strong> - 中山路美食街内 | 人均¥35-50 | 营业时间：11:00-22:00<br>
+                                            <small>柠檬鸭鲜嫩爽口，酸甜适中，南宁特色菜</small>
+                                        </div>
+                                    </div>
+                                    <div class="timeline-badges">
+                                        <span class="badge time">2小时</span>
+                                        <span class="badge price">¥100-150（2人）</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="day-section">
+                        <div class="day-header">
+                            <div class="day-badge">2</div>
+                            <div class="day-info">
+                                <h3>南宁 → 柳州</h3>
+                                <p>工业名城初体验，柳江夜色醉人</p>
+                            </div>
+                        </div>
+                        <div class="day-timeline">
+                            <div class="timeline-item">
+                                <div class="timeline-time">11:00</div>
+                                <div class="timeline-content">
+                                    <div class="timeline-title">南宁 → 柳州</div>
+                                    <div class="timeline-desc">搭乘动车前往柳州，12:20抵达柳州站</div>
+                                    <div class="timeline-badges">
+                                        <span class="badge time">1小时20分</span>
+                                        <span class="badge price">¥140（2人）</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-time">13:00</div>
+                                <div class="timeline-content">
+                                    <div class="timeline-title">入住柳江沿岸酒店</div>
+                                    <div class="timeline-desc">选择江景房，稍作休整</div>
+                                    <div class="timeline-badges">
+                                        <span class="badge time">30分钟</span>
+                                        <span class="badge price">¥350-500/晚（2人）</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-time">14:30</div>
+                                <div class="timeline-content">
+                                    <div class="timeline-title">螺蛳粉美食探索</div>
+                                    <div class="timeline-desc">深度体验柳州螺蛳粉文化，品尝不同风味</div>
+                                    <div class="food-recommendations">
+                                        <div class="food-item">
+                                            <strong>螺霸王螺蛳粉</strong> - 解放南路28号 | 人均¥18-28 | 营业时间：8:00-22:00<br>
+                                            <small>柳州最正宗的螺蛳粉，汤底鲜美，配菜丰富</small>
+                                        </div>
+                                        <div class="food-item">
+                                            <strong>老友螺蛳粉</strong> - 飞鹅路152号 | 人均¥15-25 | 营业时间：7:00-21:00<br>
+                                            <small>老字号螺蛳粉店，汤底醇厚，酸笋爽脆</small>
+                                        </div>
+                                    </div>
+                                    <div class="timeline-badges">
+                                        <span class="badge time">1.5小时</span>
+                                        <span class="badge price">¥60-80（2人）</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-time">17:00</div>
+                                <div class="timeline-content">
+                                    <div class="timeline-title">柳侯公园</div>
+                                    <div class="timeline-desc">了解柳宗元文化，游览古典园林。柳侯公园是为纪念唐代文学家柳宗元而建的公园</div>
+                                    <div class="timeline-badges">
+                                        <span class="badge time">2小时</span>
+                                        <span class="badge price">免费</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-time">20:30</div>
+                                <div class="timeline-content">
+                                    <div class="timeline-title">百里柳江夜游</div>
+                                    <div class="timeline-desc">乘坐游船欣赏柳江两岸璀璨灯火，感受工业城市的浪漫夜景</div>
+                                    <div class="timeline-badges">
+                                        <span class="badge time">1小时</span>
+                                        <span class="badge price">¥94（2人）</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="day-section">
+                        <div class="day-header">
+                            <div class="day-badge">3</div>
+                            <div class="day-info">
+                                <h3>柳州 → 阳朔</h3>
+                                <p>山水画廊初见，西街夜色迷人</p>
+                            </div>
+                        </div>
+                        <div class="day-timeline">
+                            <div class="timeline-item">
+                                <div class="timeline-time">11:15</div>
+                                <div class="timeline-content">
+                                    <div class="timeline-title">柳州 → 阳朔</div>
+                                    <div class="timeline-desc">搭乘动车前往阳朔，经桂林中转，14:30抵达</div>
+                                    <div class="timeline-badges">
+                                        <span class="badge time">3小时15分</span>
+                                        <span class="badge price">¥180（2人）</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-time">15:00</div>
+                                <div class="timeline-content">
+                                    <div class="timeline-title">入住阳朔西街客栈</div>
+                                    <div class="timeline-desc">选择西街步行圈内的特色客栈，感受古街氛围</div>
+                                    <div class="timeline-badges">
+                                        <span class="badge time">30分钟</span>
+                                        <span class="badge price">¥400-600/晚（2人）</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-time">16:00</div>
+                                <div class="timeline-content">
+                                    <div class="timeline-title">十里画廊骑行</div>
+                                    <div class="timeline-desc">租用电动车沿途欣赏喀斯特地貌。十里画廊是阳朔最美的风景线</div>
+                                    <div class="timeline-badges">
+                                        <span class="badge time">2.5小时</span>
+                                        <span class="badge price">¥80（2人）</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-time">19:30</div>
+                                <div class="timeline-content">
+                                    <div class="timeline-title">西街晚餐 + 夜逛</div>
+                                    <div class="timeline-desc">品尝阳朔特色美食，体验中西文化交融</div>
+                                    <div class="food-recommendations">
+                                        <div class="food-item">
+                                            <strong>大师傅啤酒鱼</strong> - 西街口 | 人均¥45-65 | 营业时间：11:00-22:00<br>
+                                            <small>阳朔最著名的啤酒鱼，鱼肉鲜嫩，啤酒香浓</small>
+                                        </div>
+                                        <div class="food-item">
+                                            <strong>阳朔田螺</strong> - 西街夜市 | 人均¥20-30 | 营业时间：18:00-24:00<br>
+                                            <small>阳朔特色小食，香辣下酒，夜宵首选</small>
+                                        </div>
+                                    </div>
+                                    <div class="timeline-badges">
+                                        <span class="badge time">2小时</span>
+                                        <span class="badge price">¥120-180（2人）</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="day-section">
+                        <div class="day-header">
+                            <div class="day-badge">4</div>
+                            <div class="day-info">
+                                <h3>阳朔深度游</h3>
+                                <p>遇龙河竹筏，兴坪古镇探秘</p>
+                            </div>
+                        </div>
+                        <div class="day-timeline">
+                            <div class="timeline-item">
+                                <div class="timeline-time">10:00</div>
+                                <div class="timeline-content">
+                                    <div class="timeline-title">遇龙河竹筏漂流</div>
+                                    <div class="timeline-desc">体验"小漓江"的宁静美好，竹筏悠然漂流，欣赏两岸青山如画</div>
+                                    <div class="timeline-badges">
+                                        <span class="badge time">1.5小时</span>
+                                        <span class="badge price">¥400（2人）</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-time">12:30</div>
+                                <div class="timeline-content">
+                                    <div class="timeline-title">兴坪古镇游览</div>
+                                    <div class="timeline-desc">漫步古镇，漓江边摄影，寻找20元人民币背景。兴坪是漓江风光的精华所在</div>
+                                    <div class="food-recommendations">
+                                        <div class="food-item">
+                                            <strong>兴坪松花糖</strong> - 古镇内 | 人均¥10-15 | 营业时间：8:00-18:00<br>
+                                            <small>兴坪特产，香甜酥脆，适合做伴手礼</small>
+                                        </div>
+                                        <div class="food-item">
+                                            <strong>漓江鱼</strong> - 江边餐厅 | 人均¥40-60 | 营业时间：11:00-21:00<br>
+                                            <small>现捕现做，肉质鲜美，原汁原味</small>
+                                        </div>
+                                    </div>
+                                    <div class="timeline-badges">
+                                        <span class="badge time">2.5小时</span>
+                                        <span class="badge price">¥120-140（2人）</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-time">16:00</div>
+                                <div class="timeline-content">
+                                    <div class="timeline-title">返回阳朔西街</div>
+                                    <div class="timeline-desc">回到西街休息，购买特产纪念品</div>
+                                    <div class="timeline-badges">
+                                        <span class="badge time">1小时</span>
+                                        <span class="badge price">¥50（2人交通）</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-time">19:00</div>
+                                <div class="timeline-content">
+                                    <div class="timeline-title">西街特色晚餐</div>
+                                    <div class="timeline-desc">品尝更多阳朔美食</div>
+                                    <div class="food-recommendations">
+                                        <div class="food-item">
+                                            <strong>谢三姐啤酒鱼</strong> - 西街内 | 人均¥50-70 | 营业时间：11:00-22:30<br>
+                                            <small>老字号啤酒鱼，口味独特，分量足</small>
+                                        </div>
+                                    </div>
+                                    <div class="timeline-badges">
+                                        <span class="badge time">1.5小时</span>
+                                        <span class="badge price">¥120-160（2人）</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="day-section">
+                        <div class="day-header">
+                            <div class="day-badge">5</div>
+                            <div class="day-info">
+                                <h3>柳州 → 南宁</h3>
+                                <p>探索绿城文化，品味壮乡风情</p>
+                            </div>
+                        </div>
+                        <div class="day-timeline">
+                            <div class="timeline-item">
+                                <div class="timeline-time">11:30</div>
+                                <div class="timeline-content">
+                                    <div class="timeline-title">柳州 → 南宁</div>
+                                    <div class="timeline-desc">搭乘动车前往南宁，12:50抵达南宁东站</div>
+                                    <div class="timeline-badges">
+                                        <span class="badge time">1小时20分</span>
+                                        <span class="badge price">¥140（2人）</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-time">13:30</div>
+                                <div class="timeline-content">
+                                    <div class="timeline-title">入住南宁市区酒店</div>
+                                    <div class="timeline-desc">选择市中心位置，方便游览和购物</div>
+                                    <div class="timeline-badges">
+                                        <span class="badge time">30分钟</span>
+                                        <span class="badge price">¥400-600/晚（2人）</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-time">15:00</div>
+                                <div class="timeline-content">
+                                    <div class="timeline-title">青秀山风景区</div>
+                                    <div class="timeline-desc">游览南宁市的"绿肺"，登高望远，感受绿城魅力。青秀山是南宁的标志性景点</div>
+                                    <div class="timeline-badges">
+                                        <span class="badge time">2.5小时</span>
+                                        <span class="badge price">¥40（2人）</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-time">18:30</div>
+                                <div class="timeline-content">
+                                    <div class="timeline-title">中山路美食街晚餐</div>
+                                    <div class="timeline-desc">品尝南宁特色美食：老友粉、柠檬鸭、卷筒粉</div>
+                                    <div class="food-recommendations">
+                                        <div class="food-item">
+                                            <strong>复记老友粉</strong> - 中山路49号 | 人均¥15-25 | 营业时间：6:00-24:00<br>
+                                            <small>南宁最正宗的老友粉，酸辣开胃，必尝招牌</small>
+                                        </div>
+                                        <div class="food-item">
+                                            <strong>阿香柠檬鸭</strong> - 中山路美食街内 | 人均¥35-50 | 营业时间：11:00-22:00<br>
+                                            <small>柠檬鸭鲜嫩爽口，酸甜适中，南宁特色菜</small>
+                                        </div>
+                                    </div>
+                                    <div class="timeline-badges">
+                                        <span class="badge time">2小时</span>
+                                        <span class="badge price">¥100-150（2人）</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-time">21:00</div>
+                                <div class="timeline-content">
+                                    <div class="timeline-title">民歌湖夜景</div>
+                                    <div class="timeline-desc">欣赏湖光山色，体验壮乡民歌文化。民歌湖是南宁的城市名片</div>
+                                    <div class="timeline-badges">
+                                        <span class="badge time">1小时</span>
+                                        <span class="badge price">免费</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="day-section">
+                        <div class="day-header">
+                            <div class="day-badge">6</div>
+                            <div class="day-info">
+                                <h3>南宁深度游 → 成都</h3>
+                                <p>广西民族博物馆，完美收官</p>
+                            </div>
+                        </div>
+                        <div class="day-timeline">
+                            <div class="timeline-item">
+                                <div class="timeline-time">10:30</div>
+                                <div class="timeline-content">
+                                    <div class="timeline-title">广西民族博物馆</div>
+                                    <div class="timeline-desc">了解广西各民族的历史文化，欣赏精美的民族服饰和工艺品</div>
+                                    <div class="timeline-badges">
+                                        <span class="badge time">2小时</span>
+                                        <span class="badge price">¥60（2人）</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-time">13:00</div>
+                                <div class="timeline-content">
+                                    <div class="timeline-title">三街两巷历史文化街区</div>
+                                    <div class="timeline-desc">体验南宁老城区风貌，购买特产，品尝最后的南宁美食</div>
+                                    <div class="food-recommendations">
+                                        <div class="food-item">
+                                            <strong>生榨米粉</strong> - 三街两巷内 | 人均¥15-25 | 营业时间：10:00-22:00<br>
+                                            <small>现榨现煮，米香浓郁，配菜新鲜</small>
+                                        </div>
+                                        <div class="food-item">
+                                            <strong>八珍粉</strong> - 兴宁路 | 人均¥20-35 | 营业时间：11:00-23:00<br>
+                                            <small>配料丰富，营养全面，南宁人的最爱</small>
+                                        </div>
+                                    </div>
+                                    <div class="timeline-badges">
+                                        <span class="badge time">2小时</span>
+                                        <span class="badge price">¥70-120（2人）</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-time">15:30</div>
+                                <div class="timeline-content">
+                                    <div class="timeline-title">前往南宁吴圩机场</div>
+                                    <div class="timeline-desc">搭乘机场大巴前往机场，办理登机手续</div>
+                                    <div class="timeline-badges">
+                                        <span class="badge time">1小时</span>
+                                        <span class="badge price">¥50（2人）</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-time">18:20</div>
+                                <div class="timeline-content">
+                                    <div class="timeline-title">南宁 → 成都</div>
+                                    <div class="timeline-desc">搭乘航班返回成都，20:35抵达天府机场，结束愉快旅程</div>
+                                    <div class="timeline-badges">
+                                        <span class="badge time">2小时15分</span>
+                                        <span class="badge price">¥1200-1800（2人）</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- 预算概览 -->
+        <section id="budget" class="budget-section fade-in-up">
+            <div class="card-header">
+                <div class="card-icon">
+                    <i class="fas fa-calculator"></i>
+                </div>
+                <h2 class="card-title">预算概览</h2>
+            </div>
+            
+            <div class="budget-grid">
+                <div class="budget-item">
+                    <div class="budget-category">往返机票（2人）</div>
+                    <div class="budget-amount primary">¥1800-2800</div>
+                </div>
+                <div class="budget-item">
+                    <div class="budget-category">省内交通（2人）</div>
+                    <div class="budget-amount success">¥500-700</div>
+                </div>
+                <div class="budget-item">
+                    <div class="budget-category">住宿费用（5晚）</div>
+                    <div class="budget-amount warning">¥2000-3000</div>
+                </div>
+                <div class="budget-item">
+                    <div class="budget-category">餐饮娱乐（2人）</div>
+                    <div class="budget-amount danger">¥1200-1800</div>
+                </div>
+                <div class="budget-item">
+                    <div class="budget-category">景点门票（2人）</div>
+                    <div class="budget-amount info">¥800-1200</div>
+                </div>
+            </div>
+            
+            <div class="budget-total">
+                <span class="budget-total-label">2人总预算</span>
+                <span class="budget-total-amount">¥6300-9500</span>
+            </div>
+        </section>
+    </div>
+
+    <!-- 模态框 -->
+    <div id="modal" class="modal">
+        <div class="modal-dialog">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modal-title">标题</h3>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body" id="modal-body">
+                <!-- 内容动态生成 -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast 提示 -->
+    <div id="toast" style="position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, #333, #555); color: white; padding: 15px 25px; border-radius: 25px; font-size: 14px; opacity: 0; pointer-events: none; transition: all 0.3s ease; z-index: 10001; box-shadow: var(--shadow-lg);">已复制</div>
+
+    <!-- JavaScript -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        // 地图和主要功能
+        let map, markers = [];
+        
+        // 初始化地图
+        function initMap() {
+            map = L.map('map').setView([24.0, 109.0], 7);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors'
+            }).addTo(map);
+            
+            // 添加标记点
+            const points = [
+                // 交通枢纽
+                {name:'成都天府国际机场',lat:30.308611,lon:104.741944,cat:'transport'},
+                {name:'桂林两江国际机场',lat:25.218056,lon:110.039167,cat:'transport'},
+                {name:'南宁吴圩国际机场',lat:22.601718,lon:108.187631,cat:'transport'},
+                {name:'桂林站',lat:25.316667,lon:110.283333,cat:'transport'},
+                {name:'阳朔站',lat:24.960139,lon:110.568081,cat:'transport'},
+                {name:'柳州站',lat:24.307786,lon:109.388307,cat:'transport'},
+                {name:'南宁东站',lat:22.841826,lon:108.413527,cat:'transport'},
+                
+                // 景点
+                {name:'象鼻山公园',lat:25.274167,lon:110.289167,cat:'attractions'},
+                {name:'阳朔西街',lat:24.773869,lon:110.493986,cat:'attractions'},
+                {name:'十里画廊',lat:24.777530,lon:110.433115,cat:'attractions'},
+                {name:'遇龙河景区',lat:24.777530,lon:110.433115,cat:'attractions'},
+                {name:'兴坪古镇',lat:24.916611,lon:110.530606,cat:'attractions'},
+                {name:'柳侯公园',lat:24.344108,lon:109.423811,cat:'attractions'},
+                {name:'青秀山风景区',lat:22.788660,lon:108.395254,cat:'attractions'},
+                {name:'民歌湖',lat:22.810380,lon:108.324606,cat:'attractions'},
+                {name:'广西民族博物馆',lat:22.788660,lon:108.395254,cat:'attractions'},
+                {name:'三街两巷',lat:22.810380,lon:108.324606,cat:'attractions'},
+                
+                // 美食
+                {name:'崇善米粉(桂林)',lat:25.274167,lon:110.289167,cat:'food'},
+                {name:'小南国(桂林)',lat:25.274167,lon:110.289167,cat:'food'},
+                {name:'大师傅啤酒鱼(阳朔)',lat:24.773869,lon:110.493986,cat:'food'},
+                {name:'谢三姐啤酒鱼(阳朔)',lat:24.773869,lon:110.493986,cat:'food'},
+                {name:'螺霸王螺蛳粉(柳州)',lat:24.282146,lon:109.434356,cat:'food'},
+                {name:'老友螺蛳粉(柳州)',lat:24.282146,lon:109.434356,cat:'food'},
+                {name:'复记老友粉(南宁)',lat:22.810380,lon:108.324606,cat:'food'},
+                {name:'阿香柠檬鸭(南宁)',lat:22.810380,lon:108.324606,cat:'food'},
+                {name:'生榨米粉(南宁)',lat:22.810380,lon:108.324606,cat:'food'}
+            ];
+            
+            // 定义不同类型的图标
+            const icons = {
+                transport: L.divIcon({
+                    html: '<i class="fas fa-plane" style="color: #2563eb;"></i>',
+                    iconSize: [20, 20],
+                    className: 'custom-div-icon'
+                }),
+                attractions: L.divIcon({
+                    html: '<i class="fas fa-map-marker-alt" style="color: #dc2626;"></i>',
+                    iconSize: [20, 20],
+                    className: 'custom-div-icon'
+                }),
+                food: L.divIcon({
+                    html: '<i class="fas fa-utensils" style="color: #059669;"></i>',
+                    iconSize: [20, 20],
+                    className: 'custom-div-icon'
+                })
+            };
+            
+            points.forEach(p => {
+                const icon = icons[p.cat] || icons.attractions;
+                const popupContent = `
+                    <div style="min-width: 150px;">
+                        <h4 style="margin: 0 0 5px 0; color: #333;">${p.name}</h4>
+                        <p style="margin: 0; font-size: 12px; color: #666;">
+                            ${p.cat === 'transport' ? '🚄 交通枢纽' : 
+                              p.cat === 'food' ? '🍜 美食推荐' : 
+                              '🏞️ 景点推荐'}
+                        </p>
+                    </div>
+                `;
+                const marker = L.marker([p.lat,p.lon], {icon}).bindPopup(popupContent).addTo(map);
+                markers.push({marker, category: p.cat, data: p});
+            });
+        }
+        
+        // 天气日期切换
+        function setupWeatherDates() {
+            const weatherData = {
+                '10-01': [
+                    {city: '南宁', temp: '25-30°C', condition: '多云转晴'},
+                    {city: '柳州', temp: '23-28°C', condition: '晴转多云'},
+                    {city: '阳朔', temp: '22-27°C', condition: '多云'}
+                ],
+                '10-02': [
+                    {city: '南宁', temp: '26-31°C', condition: '晴'},
+                    {city: '柳州', temp: '24-29°C', condition: '多云'},
+                    {city: '阳朔', temp: '23-28°C', condition: '晴转多云'}
+                ],
+                '10-03': [
+                    {city: '南宁', temp: '24-29°C', condition: '小雨转多云'},
+                    {city: '柳州', temp: '22-27°C', condition: '小雨'},
+                    {city: '阳朔', temp: '21-26°C', condition: '小雨转阴'}
+                ],
+                '10-04': [
+                    {city: '南宁', temp: '23-28°C', condition: '阴转多云'},
+                    {city: '柳州', temp: '21-26°C', condition: '多云'},
+                    {city: '阳朔', temp: '20-25°C', condition: '多云转晴'}
+                ],
+                '10-05': [
+                    {city: '南宁', temp: '25-30°C', condition: '晴'},
+                    {city: '柳州', temp: '23-28°C', condition: '晴'},
+                    {city: '阳朔', temp: '22-27°C', condition: '晴'}
+                ],
+                '10-06': [
+                    {city: '南宁', temp: '26-31°C', condition: '晴转多云'},
+                    {city: '柳州', temp: '24-29°C', condition: '多云'},
+                    {city: '阳朔', temp: '23-28°C', condition: '多云'}
+                ],
+                '10-07': [
+                    {city: '南宁', temp: '25-30°C', condition: '多云'},
+                    {city: '柳州', temp: '23-28°C', condition: '多云转晴'},
+                    {city: '阳朔', temp: '22-27°C', condition: '晴'}
+                ]
+            };
+            
+            document.querySelectorAll('.date-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const date = btn.dataset.date;
+                    const data = weatherData[date];
+                    
+                    // 更新按钮状态
+                    document.querySelectorAll('.date-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    
+                    // 更新天气内容
+                    const weatherContent = document.getElementById('weather-content');
+                    weatherContent.innerHTML = data.map(item => `
+                        <div class="weather-day">
+                            <div class="weather-city">${item.city}</div>
+                            <div class="weather-temp">${item.temp}</div>
+                            <div class="weather-condition">${item.condition}</div>
+                        </div>
+                    `).join('');
+                });
+            });
+        }
+        
+        // 地图筛选
+        function setupFilters() {
+            document.querySelectorAll('.map-control input').forEach(checkbox => {
+                checkbox.addEventListener('change', () => {
+                    const category = checkbox.id.replace('filter', '').toLowerCase();
+                    const categoryMap = {
+                        'traffic': 'transport',
+                        'sight': 'attractions', 
+                        'food': 'food',
+                        'stay': 'hotels'
+                    };
+                    const targetCategory = categoryMap[category];
+                    const show = checkbox.checked;
+                    
+                    markers.forEach(item => {
+                        if (item.category === targetCategory) {
+                            if (show) {
+                                map.addLayer(item.marker);
+                            } else {
+                                map.removeLayer(item.marker);
+                            }
+                        }
+                    });
+                });
+            });
+        }
+        
+        // 模态框功能
+        function showModal(title, content) {
+            document.getElementById('modal-title').textContent = title;
+            document.getElementById('modal-body').innerHTML = content;
+            document.getElementById('modal').style.display = 'block';
+        }
+        
+        function closeModal() {
+            document.getElementById('modal').style.display = 'none';
+        }
+        
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.style.opacity = '1';
+            toast.style.transform = 'translateX(-50%) translateY(-10px)';
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateX(-50%) translateY(0)';
+            }, 2500);
+        }
+        
+        // 功能函数
+        function openShareModal() {
+            const shareUrl = 'https://uri.amap.com/marker?markers=108.3667,22.7167';
+            showModal('分享地图链接', `
+                <div style="text-align: center;">
+                    <div style="width: 240px; height: 240px; background: linear-gradient(135deg, #f0f9ff, #e0f2fe); margin: 0 auto 2rem; display: flex; align-items: center; justify-content: center; border-radius: 16px; border: 2px dashed var(--primary);">
+                        <div>
+                            <i class="fas fa-qrcode" style="font-size: 4.5rem; color: var(--primary); margin-bottom: 1rem;"></i>
+                            <div style="font-size: 1rem; color: var(--secondary);">扫码查看地图</div>
+                        </div>
+                    </div>
+                    <input type="text" value="${shareUrl}" readonly style="width: 100%; padding: 1.25rem; border: 2px solid var(--border); border-radius: 12px; margin: 1.5rem 0; font-size: 1rem; background: var(--light);">
+                    <button onclick="copyToClipboard('${shareUrl}')" style="background: linear-gradient(135deg, var(--primary), #1d4ed8); color: white; border: none; padding: 1.25rem 2.5rem; border-radius: 12px; cursor: pointer; font-weight: 600; font-size: 1.1rem; box-shadow: var(--shadow); transition: all 0.3s ease;">
+                        <i class="fas fa-copy" style="margin-right: 0.75rem;"></i>
+                        复制链接
+                    </button>
+                </div>
+            `);
+        }
+        
+        function exportPDF() {
+            showModal('导出攻略', `
+                <div style="text-align: center; padding: 2.5rem;">
+                    <div style="width: 140px; height: 140px; background: linear-gradient(135deg, #fef2f2, #fee2e2); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 2.5rem;">
+                        <i class="fas fa-file-pdf" style="font-size: 3.5rem; color: var(--danger);"></i>
+                    </div>
+                    <h3 style="margin-bottom: 1.5rem; font-size: 1.6rem;">PDF导出功能</h3>
+                    <p style="color: var(--secondary); margin-bottom: 2.5rem; font-size: 1.15rem; line-height: 1.6;">此功能正在开发中，敬请期待更完善的体验...</p>
+                    <button onclick="closeModal()" style="background: var(--primary); color: white; border: none; padding: 1.25rem 2.5rem; border-radius: 12px; cursor: pointer; font-weight: 600; box-shadow: var(--shadow); font-size: 1.1rem;">
+                        知道了
+                    </button>
+                </div>
+            `);
+        }
+        
+        function showCustomPOIModal() {
+            showModal('添加自定义地点', `
+                <div>
+                    <p style="margin-bottom: 2rem; color: var(--secondary); font-size: 1.1rem; line-height: 1.6;">请输入地点信息，每行一个地点，格式：名称,纬度,经度,类别</p>
+                    <textarea id="customPOI" placeholder="例如：我的酒店,22.8167,108.3667,hotels&#10;特色餐厅,24.7833,110.4833,food" style="width: 100%; height: 140px; padding: 1.25rem; border: 2px solid var(--border); border-radius: 12px; resize: vertical; margin-bottom: 2rem; font-family: monospace; background: var(--light); font-size: 1rem;"></textarea>
+                    <div style="display: flex; gap: 1.25rem; justify-content: flex-end;">
+                        <button onclick="closeModal()" style="background: var(--light); color: var(--dark); border: 2px solid var(--border); padding: 1rem 2rem; border-radius: 12px; cursor: pointer; font-weight: 600; font-size: 1rem;">
+                            取消
+                        </button>
+                        <button onclick="addCustomPOI()" style="background: var(--primary); color: white; border: none; padding: 1rem 2rem; border-radius: 12px; cursor: pointer; font-weight: 600; box-shadow: var(--shadow); font-size: 1rem;">
+                            <i class="fas fa-plus" style="margin-right: 0.75rem;"></i>
+                            添加
+                        </button>
+                    </div>
+                </div>
+            `);
+        }
+        
+        function addCustomPOI() {
+            const input = document.getElementById('customPOI').value.trim();
+            if (!input) {
+                showToast('请输入地点信息');
+                return;
+            }
+            
+            let addedCount = 0;
+            input.split('\n').forEach(line => {
+                const [name, lat, lon, category] = line.split(',').map(s => s.trim());
+                if (name && lat && lon) {
+                    const marker = L.marker([parseFloat(lat), parseFloat(lon)])
+                        .bindPopup(`<b>${name}</b><br>自定义POI`)
+                        .addTo(map);
+                    markers.push({marker, category: category || 'custom', data: {name, lat: parseFloat(lat), lon: parseFloat(lon)}});
+                    addedCount++;
+                }
+            });
+            
+            closeModal();
+            showToast(`已添加 ${addedCount} 个自定义地点`);
+        }
+        
+
+        
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                showToast('链接已复制到剪贴板！');
+                closeModal();
+            }).catch(() => {
+                showToast('复制失败，请手动复制');
+            });
+        }
+        
+        // H5移动端优化
+        function initMobileOptimization() {
+            // 防止iOS橡皮筋效果
+            document.body.addEventListener('touchmove', function(e) {
+                if (e.target === document.body) {
+                    e.preventDefault();
+                }
+            }, { passive: false });
+            
+            // 移动端导航点击优化
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.addEventListener('touchstart', function() {
+                    this.style.opacity = '0.7';
+                });
+                
+                link.addEventListener('touchend', function() {
+                    this.style.opacity = '1';
+                });
+            });
+            
+            // 移动端按钮触摸反馈
+            document.querySelectorAll('.date-btn, .btn').forEach(btn => {
+                btn.addEventListener('touchstart', function(e) {
+                    this.style.transform = 'scale(0.95)';
+                });
+                
+                btn.addEventListener('touchend', function(e) {
+                    this.style.transform = '';
+                });
+            });
+            
+            // 检测设备方向变化
+            window.addEventListener('orientationchange', function() {
+                setTimeout(() => {
+                    if (window.map) {
+                        window.map.invalidateSize();
+                    }
+                }, 100);
+            });
+        }
+        
+        // 初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            initMap();
+            setupWeatherDates();
+            setupFilters();
+            initMobileOptimization();
+            
+            // 添加页面加载动画
+            setTimeout(() => {
+                document.querySelectorAll('.fade-in-up').forEach((el, index) => {
+                    setTimeout(() => {
+                        el.style.opacity = '1';
+                        el.style.transform = 'translateY(0)';
+                    }, index * 200);
+                });
+            }, 100);
+        });
+        
+        // 点击模态框外部关闭
+        window.onclick = function(event) {
+            const modal = document.getElementById('modal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+        
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+
+
