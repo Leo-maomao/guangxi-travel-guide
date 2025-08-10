@@ -7,8 +7,8 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#2563eb">
-    <title>南宁-柳州-阳朔6日之旅 | 成都出发轻松路线</title>
-    <meta name="description" content="成都出发南宁-柳州-阳朔6日轻松游：简化路线设计、详细行程安排、交互地图、特色美食推荐。">
+    <title>成都-南宁-桂林-阳朔6日之旅 | 广西深度游</title>
+    <meta name="description" content="成都出发南宁-桂林-阳朔6日轻松游：简化路线设计、详细行程安排、交互地图、特色美食推荐。">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -34,6 +34,242 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-box-sizing: border-box; /* Safari兼容 */
+            -moz-box-sizing: border-box; /* Firefox兼容 */
+        }
+        
+        /* 移动端触摸优化 */
+        * {
+            -webkit-tap-highlight-color: transparent;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        
+        /* 允许文本选择的元素 */
+        p, span, div.timeline-desc, .food-item {
+            -webkit-user-select: text;
+            -khtml-user-select: text;
+            -moz-user-select: text;
+            -ms-user-select: text;
+            user-select: text;
+        }
+        
+        /* H5移动端专用优化 */
+        @media screen and (max-width: 768px) {
+            body {
+                -webkit-text-size-adjust: 100%; /* 防止iOS自动调整字体 */
+                -ms-text-size-adjust: 100%; /* 防止WP自动调整字体 */
+            }
+            
+            .navbar {
+                padding: 0.5rem 0;
+            }
+            
+            .nav-content {
+                padding: 1rem;
+                flex-direction: column;
+                -webkit-flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .nav-links {
+                gap: 1rem;
+                flex-wrap: wrap;
+                -webkit-flex-wrap: wrap;
+                justify-content: center;
+                -webkit-justify-content: center;
+            }
+            
+            .nav-links a {
+                font-size: 0.9rem;
+                padding: 0.5rem 1rem;
+                min-height: 44px; /* iOS推荐的最小触摸目标 */
+                display: flex;
+                display: -webkit-flex;
+                align-items: center;
+                -webkit-align-items: center;
+                justify-content: center;
+                -webkit-justify-content: center;
+            }
+            
+            .brand {
+                font-size: 1.25rem;
+                justify-content: center;
+                -webkit-justify-content: center;
+                margin-bottom: 0.5rem;
+            }
+            
+            .container {
+                padding: 1.5rem 1rem;
+            }
+            
+            /* 移动端地图优化 */
+            #map {
+                height: 300px !important;
+                border-radius: 8px;
+            }
+            
+            .map-controls {
+                flex-wrap: wrap;
+                -webkit-flex-wrap: wrap;
+                gap: 0.5rem;
+            }
+            
+            .map-control {
+                flex: 1;
+                -webkit-flex: 1;
+                min-width: calc(50% - 0.25rem);
+            }
+            
+            /* 移动端行程标题优化 */
+            .day-header {
+                padding: 1.5rem 1rem;
+                gap: 1rem;
+                flex-direction: row;
+                -webkit-flex-direction: row;
+                align-items: flex-start;
+                -webkit-align-items: flex-start;
+            }
+            
+            .day-badge {
+                width: 40px;
+                height: 40px;
+                font-size: 1.1rem;
+                flex-shrink: 0;
+                -webkit-flex-shrink: 0;
+            }
+            
+            .day-info {
+                flex: 1;
+                -webkit-flex: 1;
+            }
+            
+            .day-info h3 {
+                font-size: 1.1rem;
+                line-height: 1.3;
+                margin-bottom: 0.3rem;
+                word-break: break-all;
+                overflow-wrap: break-word;
+            }
+            
+            .day-info p {
+                font-size: 0.9rem;
+                line-height: 1.4;
+                opacity: 0.8;
+            }
+            
+            /* 移动端行程时间轴优化 */
+            .day-timeline {
+                margin-left: 2rem;
+            }
+            
+            .day-timeline::before {
+                left: -1rem;
+            }
+            
+            .timeline-item {
+                padding: 1rem;
+                margin-bottom: 1rem;
+                flex-direction: column;
+                -webkit-flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .timeline-item::before {
+                left: -1.5rem;
+                top: 1.5rem;
+                width: 12px;
+                height: 12px;
+            }
+            
+            .timeline-time {
+                font-size: 1rem;
+                min-width: auto;
+                color: var(--primary);
+                font-weight: 700;
+            }
+            
+            .timeline-content {
+                margin-left: 0;
+            }
+            
+            .timeline-title {
+                font-size: 1rem;
+                margin-bottom: 0.5rem;
+            }
+            
+            .timeline-desc {
+                font-size: 0.9rem;
+                line-height: 1.5;
+            }
+            
+            .timeline-badges {
+                flex-wrap: wrap;
+                -webkit-flex-wrap: wrap;
+                gap: 0.25rem;
+                margin-top: 0.75rem;
+            }
+            
+            .badge {
+                font-size: 0.75rem;
+                padding: 0.25rem 0.5rem;
+            }
+        }
+        
+        /* 超小屏幕优化 */
+        @media screen and (max-width: 480px) {
+            .nav-links a {
+                font-size: 0.8rem;
+                padding: 0.4rem 0.8rem;
+            }
+            
+            .brand {
+                font-size: 1.1rem;
+            }
+            
+            .container {
+                padding: 1rem 0.5rem;
+            }
+            
+            .timeline-item {
+                padding: 0.75rem;
+            }
+            
+            .timeline-content {
+                margin-left: 0.5rem;
+            }
+        }
+        
+        /* 移动端专用样式 */
+        .mobile-device {
+            -webkit-overflow-scrolling: touch; /* iOS平滑滚动 */
+        }
+        
+        .mobile-device .navbar {
+            -webkit-transform: translateZ(0); /* 硬件加速 */
+            transform: translateZ(0);
+        }
+        
+        .mobile-device .timeline-item {
+            -webkit-transform: translateZ(0); /* 硬件加速 */
+            transform: translateZ(0);
+        }
+        
+        .mobile-device #map {
+            -webkit-transform: translateZ(0); /* 硬件加速 */
+            transform: translateZ(0);
+        }
+        
+        /* 高DPI屏幕优化 */
+        @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+            .brand i, .nav-links a::before {
+                -webkit-font-smoothing: antialiased;
+                -moz-osx-font-smoothing: grayscale;
+            }
         }
 
         body {
@@ -47,10 +283,12 @@
         /* 顶部导航栏 - 优雅精致 */
         .navbar {
             position: sticky;
+            position: -webkit-sticky; /* Safari兼容 */
             top: 0;
             z-index: 1000;
             background: rgba(255,255,255,0.95);
             backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px); /* Safari兼容 */
             border-bottom: 1px solid var(--border);
             box-shadow: var(--shadow-sm);
         }
@@ -60,20 +298,30 @@
             margin: 0 auto;
             padding: 1.5rem 2rem;
             display: flex;
+            display: -webkit-flex; /* Safari兼容 */
             justify-content: space-between;
+            -webkit-justify-content: space-between; /* Safari兼容 */
             align-items: center;
+            -webkit-align-items: center; /* Safari兼容 */
             flex-wrap: wrap;
+            -webkit-flex-wrap: wrap; /* Safari兼容 */
             gap: 1rem;
         }
 
         .brand {
             display: flex;
+            display: -webkit-flex; /* Safari兼容 */
             align-items: center;
+            -webkit-align-items: center; /* Safari兼容 */
             gap: 0.75rem;
             font-size: 1.75rem;
             font-weight: 800;
             color: var(--primary);
             letter-spacing: -0.02em;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent; /* 移除点击高亮 */
+            user-select: none;
+            -webkit-user-select: none; /* Safari兼容 */
         }
 
         .brand i {
@@ -82,8 +330,10 @@
 
         .nav-links {
             display: flex;
+            display: -webkit-flex; /* Safari兼容 */
             gap: 3rem;
             align-items: center;
+            -webkit-align-items: center; /* Safari兼容 */
         }
 
         .nav-links a {
@@ -92,12 +342,16 @@
             padding: 0.75rem 1.2rem;
             border-radius: var(--radius-sm);
             transition: all 0.3s ease;
+            -webkit-transition: all 0.3s ease; /* Safari兼容 */
             position: relative;
             font-size: 1.05rem;
             display: flex;
+            display: -webkit-flex; /* Safari兼容 */
             align-items: center;
+            -webkit-align-items: center; /* Safari兼容 */
             gap: 0.5rem;
             text-decoration: none;
+            -webkit-tap-highlight-color: transparent; /* 移除点击高亮 */
         }
 
         .nav-links a::before {
@@ -107,20 +361,24 @@
             background: var(--primary);
             border-radius: 50%;
             transition: all 0.3s ease;
+            -webkit-transition: all 0.3s ease; /* Safari兼容 */
             opacity: 0;
             transform: scale(0);
+            -webkit-transform: scale(0); /* Safari兼容 */
         }
 
         .nav-links a:hover {
             color: var(--primary);
             background: var(--primary-light);
             transform: translateY(-1px);
+            -webkit-transform: translateY(-1px); /* Safari兼容 */
             box-shadow: 0 2px 8px rgba(37, 99, 235, 0.15);
         }
         
         .nav-links a:hover::before {
             opacity: 1;
             transform: scale(1);
+            -webkit-transform: scale(1); /* Safari兼容 */
         }
 
 
@@ -134,7 +392,9 @@
 
         .main-content {
             display: flex;
+            display: -webkit-flex; /* Safari兼容 */
             flex-direction: column;
+            -webkit-flex-direction: column; /* Safari兼容 */
             gap: 3rem;
         }
 
@@ -1235,57 +1495,19 @@
     <!-- 导航栏 -->
     <nav class="navbar">
         <div class="nav-content">
-            <div class="brand">
+            <div class="brand" style="cursor: pointer;" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
                 <i class="fas fa-mountain"></i>
-                南宁-柳州-阳朔之旅
+广西深度6日游
             </div>
             <div class="nav-links">
-                <a href="#weather">天气</a>
                 <a href="#mapsec">地图导览</a>
                 <a href="#plan">精选行程</a>
-                <a href="#budget">预算概览</a>
             </div>
 
         </div>
     </nav>
 
-    <!-- 天气预报 -->
-    <section class="weather-section fade-in-up" id="weather">
-        <div class="container">
-            <div class="weather-header">
-                <div class="weather-icon">
-                    <i class="fas fa-cloud-sun"></i>
-                </div>
-                <h2>国庆期间天气预报</h2>
-                <div class="date-selector">
-                    <button class="date-btn active" data-date="10-01">10月1日</button>
-                    <button class="date-btn" data-date="10-02">10月2日</button>
-                    <button class="date-btn" data-date="10-03">10月3日</button>
-                    <button class="date-btn" data-date="10-04">10月4日</button>
-                    <button class="date-btn" data-date="10-05">10月5日</button>
-                    <button class="date-btn" data-date="10-06">10月6日</button>
-                    <button class="date-btn" data-date="10-07">10月7日</button>
-                </div>
-            </div>
-            <div class="weather-grid" id="weather-content">
-                <div class="weather-day">
-                    <div class="weather-city">南宁</div>
-                    <div class="weather-temp">25-30°C</div>
-                    <div class="weather-condition">多云转晴</div>
-                </div>
-                <div class="weather-day">
-                    <div class="weather-city">柳州</div>
-                    <div class="weather-temp">23-28°C</div>
-                    <div class="weather-condition">晴转多云</div>
-                </div>
-                <div class="weather-day">
-                    <div class="weather-city">阳朔</div>
-                    <div class="weather-temp">22-27°C</div>
-                    <div class="weather-condition">多云</div>
-                </div>
-            </div>
-        </div>
-    </section>
+
 
     <div class="container">
         <main class="main-content">
@@ -1303,7 +1525,7 @@
                     <div class="map-overlay">
                         <div class="map-control">
                             <input type="checkbox" id="filterTraffic" checked>
-                            <label for="filterTraffic">交通枢纽</label>
+                            <label for="filterTraffic">交通</label>
                         </div>
                         <div class="map-control">
                             <input type="checkbox" id="filterSight" checked>
@@ -1315,7 +1537,7 @@
                         </div>
                         <div class="map-control">
                             <input type="checkbox" id="filterStay" checked>
-                            <label for="filterStay">住宿区域</label>
+                            <label for="filterStay">住宿</label>
                         </div>
                     </div>
                     <div id="map"></div>
@@ -1342,47 +1564,45 @@
                     <h2 class="card-title">精选行程安排</h2>
                 </div>
                 
-                <div class="note">
-                    以下为可执行的固定时刻示例，购票时优先选择同时间窗/相近班次；若实际购票不同，可按结构顺延。
-                </div>
+
                 
                 <div id="itinerary-6" class="timeline">
                     <div class="day-section">
                         <div class="day-header">
                             <div class="day-badge">1</div>
                             <div class="day-info">
-                                <h3>成都 → 南宁</h3>
-                                <p>初探绿城风情，感受壮乡文化</p>
+                                <h3>成都→南宁（10月2日）</h3>
+                                <p>初探绿城风情，感受壮乡文化 | 🌤️ 南宁天气：多云 27-35°C</p>
                             </div>
                         </div>
                         <div class="day-timeline">
                             <div class="timeline-item">
-                                <div class="timeline-time">10:20</div>
+                                <div class="timeline-time">12:15</div>
                                 <div class="timeline-content">
-                                    <div class="timeline-title">成都天府机场出发</div>
-                                    <div class="timeline-desc">搭乘上午航班前往南宁，12:35抵达吴圩国际机场</div>
+                                    <div class="timeline-title">成都天府机场 → 南宁吴圩机场</div>
+                                    <div class="timeline-desc">🛫 航班：GX8966次 12:15起飞 → 14:00抵达 | 飞行时长1小时45分钟<br>📍 成都天府机场T2航站楼 → 南宁吴圩机场T2航站楼 | 票价：¥690/人</div>
                                     <div class="timeline-badges">
-                                        <span class="badge time">2小时15分</span>
-                                        <span class="badge price">¥1200-1800（2人）</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="timeline-item">
-                                <div class="timeline-time">13:30</div>
-                                <div class="timeline-content">
-                                    <div class="timeline-title">机场大巴前往市区</div>
-                                    <div class="timeline-desc">乘坐机场大巴到达南宁市区，办理入住手续</div>
-                                    <div class="timeline-badges">
-                                        <span class="badge time">1小时</span>
-                                        <span class="badge price">¥50（2人）</span>
+                                        <span class="badge time">1小时45分</span>
+                                        <span class="badge price">¥690×2</span>
                                     </div>
                                 </div>
                             </div>
                             <div class="timeline-item">
                                 <div class="timeline-time">15:00</div>
                                 <div class="timeline-content">
-                                    <div class="timeline-title">南宁特色午餐</div>
-                                    <div class="timeline-desc">品尝地道南宁午餐</div>
+                                    <div class="timeline-title">机场到市区 + 办理入住</div>
+                                    <div class="timeline-desc">🚌 机场大巴到市区约45分钟，入住酒店<br>🏨 <strong>亚朵酒店（南宁万象城店）</strong><br>📍 南宁市青秀区民族大道131号 | ¥400-500/晚 | 地铁1号线万象城站，位置优越</div>
+                                    <div class="timeline-badges">
+                                        <span class="badge time">1小时</span>
+                                        <span class="badge price">¥50（2人交通）</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-time">16:00</div>
+                                <div class="timeline-content">
+                                    <div class="timeline-title">南宁小吃体验</div>
+                                    <div class="timeline-desc">品尝南宁特色小吃，轻松游览</div>
                                     <div class="food-recommendations">
                                         <div class="food-item">
                                             <strong>舒记老友粉</strong> - 共和路35号 | 人均¥18-30 | 营业时间：7:00-22:00<br>
@@ -1404,13 +1624,13 @@
                                 </div>
                             </div>
                             <div class="timeline-item">
-                                <div class="timeline-time">16:30</div>
+                                <div class="timeline-time">17:30</div>
                                 <div class="timeline-content">
-                                    <div class="timeline-title">青秀山风景区</div>
-                                    <div class="timeline-desc">游览南宁市的"绿肺"，登高望远，感受绿城魅力</div>
+                                    <div class="timeline-title">万象城休闲购物</div>
+                                    <div class="timeline-desc">在酒店附近的万象城逛街休息，适应当地环境</div>
                                     <div class="timeline-badges">
-                                        <span class="badge time">2小时</span>
-                                        <span class="badge price">¥40（2人）</span>
+                                        <span class="badge time">1.5小时</span>
+                                        <span class="badge price">自由消费</span>
                                     </div>
                                 </div>
                             </div>
@@ -1475,140 +1695,85 @@
                         <div class="day-header">
                             <div class="day-badge">2</div>
                             <div class="day-info">
-                                <h3>南宁 → 柳州</h3>
-                                <p>工业名城初体验，柳江夜色醉人</p>
+                                <h3>南宁深度游（10月3日）</h3>
+                                <p>青秀山风光，探索绿城文化 | 🌤️ 南宁天气：多云 26-35°C</p>
                             </div>
                         </div>
                         <div class="day-timeline">
                             <div class="timeline-item">
-                                <div class="timeline-time">09:30</div>
-                                <div class="timeline-content">
-                                    <div class="timeline-title">南宁早餐</div>
-                                    <div class="timeline-desc">品尝南宁传统早餐</div>
-                                    <div class="food-recommendations">
-                                        <div class="food-item">
-                                            <strong>南宁包子</strong> - 酒店附近早餐店 | 人均¥8-15 | 营业时间：6:00-10:00<br>
-                                            <small>皮薄馅大，汤汁丰富，配豆浆或粥</small>
-                                        </div>
-                                        <div class="food-item">
-                                            <strong>白粥配咸菜</strong> - 传统早餐店 | 人均¥6-12 | 营业时间：6:00-11:00<br>
-                                            <small>清淡养胃，搭配各种小菜</small>
-                                        </div>
-                                    </div>
-                                    <div class="timeline-badges">
-                                        <span class="badge time">30分钟</span>
-                                        <span class="badge price">¥20-35（2人）</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="timeline-item">
                                 <div class="timeline-time">11:00</div>
                                 <div class="timeline-content">
-                                    <div class="timeline-title">南宁 → 柳州</div>
-                                    <div class="timeline-desc">搭乘动车前往柳州，12:20抵达柳州站</div>
+                                    <div class="timeline-title">青秀山风景区</div>
+                                    <div class="timeline-desc">📍 南宁市青秀区青山路19号 | 游览南宁市的"绿肺"，登高望远<br>🎯 龙象塔、热带雨林大观园，感受绿城魅力 | 门票¥20×2</div>
                                     <div class="timeline-badges">
-                                        <span class="badge time">1小时20分</span>
-                                        <span class="badge price">¥140（2人）</span>
+                                        <span class="badge time">3小时</span>
+                                        <span class="badge price">¥40×2</span>
                                     </div>
                                 </div>
                             </div>
                             <div class="timeline-item">
-                                <div class="timeline-time">13:00</div>
+                                <div class="timeline-time">14:00</div>
                                 <div class="timeline-content">
-                                    <div class="timeline-title">入住柳江沿岸酒店</div>
-                                    <div class="timeline-desc">选择江景房，稍作休整</div>
+                                    <div class="timeline-title">青秀山景区内午餐</div>
+                                    <div class="timeline-desc">在景区内餐厅用餐，品尝广西特色菜</div>
                                     <div class="timeline-badges">
-                                        <span class="badge time">30分钟</span>
-                                        <span class="badge price">¥350-500/晚（2人）</span>
+                                        <span class="badge time">1小时</span>
+                                        <span class="badge price">¥40-60×2</span>
                                     </div>
                                 </div>
                             </div>
                             <div class="timeline-item">
-                                <div class="timeline-time">14:30</div>
+                                <div class="timeline-time">15:30</div>
                                 <div class="timeline-content">
-                                    <div class="timeline-title">螺蛳粉美食探索</div>
-                                    <div class="timeline-desc">深度体验柳州螺蛳粉文化，品尝不同风味</div>
-                                    <div class="food-recommendations">
-                                        <div class="food-item">
-                                            <strong>螺霸王螺蛳粉</strong> - 解放南路28号 | 人均¥18-28 | 营业时间：8:00-22:00<br>
-                                            <small>柳州最正宗的螺蛳粉，汤底鲜美，配菜丰富</small>
-                                        </div>
-                                        <div class="food-item">
-                                            <strong>老友螺蛳粉</strong> - 飞鹅路152号 | 人均¥15-25 | 营业时间：7:00-21:00<br>
-                                            <small>老字号螺蛳粉店，汤底醇厚，酸笋爽脆</small>
-                                        </div>
-                                    </div>
+                                    <div class="timeline-title">南湖公园游览</div>
+                                    <div class="timeline-desc">🌊 游览南湖风光，体验城市绿洲的宁静 | 可租船游湖<br>📍 南宁市青秀区双拥路，免费开放</div>
                                     <div class="timeline-badges">
-                                        <span class="badge time">1.5小时</span>
-                                        <span class="badge price">¥60-80（2人）</span>
+                                        <span class="badge time">2小时</span>
+                                        <span class="badge price">¥10-20×2（游船）</span>
                                     </div>
                                 </div>
                             </div>
                             <div class="timeline-item">
                                 <div class="timeline-time">17:00</div>
                                 <div class="timeline-content">
-                                    <div class="timeline-title">柳侯公园</div>
-                                    <div class="timeline-desc">了解柳宗元文化，游览古典园林。柳侯公园是为纪念唐代文学家柳宗元而建的公园</div>
+                                    <div class="timeline-title">三街两巷历史文化街区</div>
+                                    <div class="timeline-desc">📍 南宁市兴宁区解放路 | 体验南宁老城区风情，明清建筑群<br>🎯 兴宁路、民生路、解放路交汇处，免费参观</div>
                                     <div class="timeline-badges">
                                         <span class="badge time">2小时</span>
                                         <span class="badge price">免费</span>
                                     </div>
                                 </div>
                             </div>
+
                             <div class="timeline-item">
                                 <div class="timeline-time">19:30</div>
                                 <div class="timeline-content">
-                                    <div class="timeline-title">柳州特色晚餐</div>
-                                    <div class="timeline-desc">品尝柳州地道菜肴</div>
+                                    <div class="timeline-title">南宁特色晚餐</div>
+                                    <div class="timeline-desc">品尝南宁地道菜肴</div>
                                     <div class="food-recommendations">
                                         <div class="food-item">
-                                            <strong>柳州酿豆腐</strong> - 柳江边餐厅 | 人均¥25-40 | 营业时间：17:00-22:00<br>
-                                            <small>柳州传统菜，豆腐嫩滑，肉馅鲜美</small>
+                                            <strong>绿城食府</strong> - 民族大道 | 人均¥50-80 | 营业时间：17:00-22:00<br>
+                                            <small>南宁老字号，白切鸡和柠檬鸭是招牌</small>
                                         </div>
                                         <div class="food-item">
-                                            <strong>柳州白切鸭</strong> - 老字号餐厅 | 人均¥30-45 | 营业时间：16:00-22:00<br>
-                                            <small>鸭肉鲜嫩，蘸料独特，柳州名菜</small>
-                                        </div>
-                                        <div class="food-item">
-                                            <strong>柳州炒河粉</strong> - 街边小店 | 人均¥15-25 | 营业时间：17:00-24:00<br>
-                                            <small>河粉爽滑，配菜丰富，炒制香浓</small>
+                                            <strong>壮乡菜馆</strong> - 青秀区 | 人均¥40-60 | 营业时间：17:00-22:00<br>
+                                            <small>正宗壮族菜，五色糯米饭和酸菜鱼很棒</small>
                                         </div>
                                     </div>
                                     <div class="timeline-badges">
                                         <span class="badge time">1.5小时</span>
-                                        <span class="badge price">¥120-180（2人）</span>
+                                        <span class="badge price">¥60-90×2</span>
                                     </div>
                                 </div>
                             </div>
                             <div class="timeline-item">
                                 <div class="timeline-time">21:30</div>
                                 <div class="timeline-content">
-                                    <div class="timeline-title">百里柳江夜游</div>
-                                    <div class="timeline-desc">乘坐游船欣赏柳江两岸璀璨灯火，感受工业城市的浪漫夜景</div>
+                                    <div class="timeline-title">邕江夜景漫步</div>
+                                    <div class="timeline-desc">沿着邕江畔散步，欣赏南宁夜景，感受绿城夜晚的宁静</div>
                                     <div class="timeline-badges">
                                         <span class="badge time">1小时</span>
-                                        <span class="badge price">¥94（2人）</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="timeline-item">
-                                <div class="timeline-time">23:00</div>
-                                <div class="timeline-content">
-                                    <div class="timeline-title">柳州夜宵</div>
-                                    <div class="timeline-desc">体验柳州夜生活</div>
-                                    <div class="food-recommendations">
-                                        <div class="food-item">
-                                            <strong>水油堆</strong> - 柳江边小摊 | 人均¥8-15 | 营业时间：20:00-2:00<br>
-                                            <small>柳州特色小食，外酥内软，香甜可口</small>
-                                        </div>
-                                        <div class="food-item">
-                                            <strong>柳州烧烤</strong> - 夜市摊位 | 人均¥25-40 | 营业时间：19:00-3:00<br>
-                                            <small>各种烤串，配柳州啤酒，夜宵经典</small>
-                                        </div>
-                                    </div>
-                                    <div class="timeline-badges">
-                                        <span class="badge time">1小时</span>
-                                        <span class="badge price">¥50-80（2人）</span>
+                                        <span class="badge price">免费</span>
                                     </div>
                                 </div>
                             </div>
@@ -1619,79 +1784,90 @@
                         <div class="day-header">
                             <div class="day-badge">3</div>
                             <div class="day-info">
-                                <h3>柳州深度游</h3>
-                                <p>工业文化探索，马鞍山登高望远</p>
+                                <h3>南宁→东兴→南宁（10月4日）</h3>
+                                <p>边境风情，中越边界体验 | 🌤️ 东兴天气：多云 25-32°C</p>
                             </div>
                         </div>
                         <div class="day-timeline">
                             <div class="timeline-item">
-                                <div class="timeline-time">10:00</div>
+                                <div class="timeline-time">08:30</div>
                                 <div class="timeline-content">
-                                    <div class="timeline-title">柳州工业博物馆</div>
-                                    <div class="timeline-desc">了解柳州的工业发展历史，参观汽车制造、钢铁冶金等展品</div>
+                                    <div class="timeline-title">南宁 → 东兴</div>
+                                    <div class="timeline-desc">🚄 高铁：D8301次 08:30发车 → 10:15抵达 | 行程时长1小时45分钟<br>📍 南宁站 → 防城港北站，再转大巴到东兴（约30分钟）| 高铁票价：¥65×2</div>
+                                    <div class="timeline-badges">
+                                        <span class="badge time">2.5小时</span>
+                                        <span class="badge price">¥85×2</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-time">11:00</div>
+                                <div class="timeline-content">
+                                    <div class="timeline-title">东兴国门景区</div>
+                                    <div class="timeline-desc">📍 东兴市新华路 | 中越边境国门，体验边境风情<br>🎯 可拍照留念，感受一脚踏两国的独特体验 | 门票¥30×2</div>
                                     <div class="timeline-badges">
                                         <span class="badge time">2小时</span>
-                                        <span class="badge price">¥80（2人）</span>
+                                        <span class="badge price">¥30×2</span>
                                     </div>
                                 </div>
                             </div>
                             <div class="timeline-item">
                                 <div class="timeline-time">13:00</div>
                                 <div class="timeline-content">
-                                    <div class="timeline-title">特色午餐</div>
-                                    <div class="timeline-desc">品尝更多柳州特色美食</div>
+                                    <div class="timeline-title">东兴海鲜午餐</div>
+                                    <div class="timeline-desc">品尝北部湾海鲜，体验边境美食</div>
                                     <div class="food-recommendations">
                                         <div class="food-item">
-                                            <strong>柳州人家螺蛳粉</strong> - 城中区文昌路 | 人均¥20-30 | 营业时间：8:00-22:00<br>
-                                            <small>本地人推荐，配菜丰富，口味地道</small>
+                                            <strong>东兴海鲜大排档</strong> - 新华路 | 人均¥60-80 | 营业时间：11:00-22:00<br>
+                                            <small>新鲜海鲜，白切鸡、越南春卷也很棒</small>
                                         </div>
                                         <div class="food-item">
-                                            <strong>水油堆</strong> - 柳江边小摊 | 人均¥8-15 | 营业时间：全天<br>
-                                            <small>柳州特色小食，外酥内软，香甜可口</small>
+                                            <strong>越南河粉</strong> - 边贸街 | 人均¥25-35 | 营业时间：8:00-20:00<br>
+                                            <small>正宗越南风味，牛肉河粉必尝</small>
+                                        </div>
+                                    </div>
+                                    <div class="timeline-badges">
+                                        <span class="badge time">1.5小时</span>
+                                        <span class="badge price">¥60-80×2</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-time">14:30</div>
+                                <div class="timeline-content">
+                                    <div class="timeline-title">中越边贸街购物</div>
+                                    <div class="timeline-desc">📍 东兴边贸街 | 购买越南特产：咖啡、腰果、橡胶拖鞋等<br>💰 可以砍价，注意辨别商品质量</div>
+                                    <div class="timeline-badges">
+                                        <span class="badge time">2小时</span>
+                                        <span class="badge price">¥100-300×2（购物）</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-time">17:00</div>
+                                <div class="timeline-content">
+                                    <div class="timeline-title">东兴 → 南宁</div>
+                                    <div class="timeline-desc">🚄 返程高铁：D8310次 18:45发车 → 20:30抵达 | 行程时长1小时45分钟<br>📍 先从东兴到防城港北站（大巴30分钟），再乘高铁回南宁站</div>
+                                    <div class="timeline-badges">
+                                        <span class="badge time">2.5小时</span>
+                                        <span class="badge price">¥85×2</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-time">21:00</div>
+                                <div class="timeline-content">
+                                    <div class="timeline-title">南宁夜宵</div>
+                                    <div class="timeline-desc">回到南宁享用夜宵，总结边境一日游</div>
+                                    <div class="food-recommendations">
+                                        <div class="food-item">
+                                            <strong>老友粉夜宵</strong> - 中山路 | 人均¥20-30 | 营业时间：20:00-2:00<br>
+                                            <small>经典南宁夜宵，酸辣开胃</small>
                                         </div>
                                     </div>
                                     <div class="timeline-badges">
                                         <span class="badge time">1小时</span>
-                                        <span class="badge price">¥50-80（2人）</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="timeline-item">
-                                <div class="timeline-time">15:00</div>
-                                <div class="timeline-content">
-                                    <div class="timeline-title">马鞍山公园</div>
-                                    <div class="timeline-desc">登高远眺柳州全景，欣赏柳江蜿蜒。马鞍山是柳州市的制高点，可俯瞰整个城市</div>
-                                    <div class="timeline-badges">
-                                        <span class="badge time">2小时</span>
-                                        <span class="badge price">免费</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="timeline-item">
-                                <div class="timeline-time">18:00</div>
-                                <div class="timeline-content">
-                                    <div class="timeline-title">窑埠古镇</div>
-                                    <div class="timeline-desc">体验古镇风情，了解柳州历史文化。古镇保留了明清建筑风格</div>
-                                    <div class="timeline-badges">
-                                        <span class="badge time">1.5小时</span>
-                                        <span class="badge price">免费</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="timeline-item">
-                                <div class="timeline-time">20:00</div>
-                                <div class="timeline-content">
-                                    <div class="timeline-title">柳江夜景晚餐</div>
-                                    <div class="timeline-desc">在江边餐厅享用晚餐，欣赏柳江夜景</div>
-                                    <div class="food-recommendations">
-                                        <div class="food-item">
-                                            <strong>江景餐厅</strong> - 柳江边 | 人均¥40-60 | 营业时间：17:00-23:00<br>
-                                            <small>江景位置绝佳，可边用餐边欣赏夜景</small>
-                                        </div>
-                                    </div>
-                                    <div class="timeline-badges">
-                                        <span class="badge time">1.5小时</span>
-                                        <span class="badge price">¥80-120（2人）</span>
+                                        <span class="badge price">¥20-30×2</span>
                                     </div>
                                 </div>
                             </div>
@@ -1702,49 +1878,154 @@
                         <div class="day-header">
                             <div class="day-badge">4</div>
                             <div class="day-info">
-                                <h3>柳州 → 阳朔</h3>
-                                <p>山水画廊初见，西街夜色迷人</p>
+                                <h3>南宁→桂林（10月5日）</h3>
+                                <p>前往山水甲天下的桂林 | 🌤️ 桂林天气：多云 25-33°C</p>
                             </div>
                         </div>
                         <div class="day-timeline">
                             <div class="timeline-item">
-                                <div class="timeline-time">11:15</div>
+                                <div class="timeline-time">11:00</div>
                                 <div class="timeline-content">
-                                    <div class="timeline-title">柳州 → 阳朔</div>
-                                    <div class="timeline-desc">搭乘动车前往阳朔，经桂林中转，14:30抵达</div>
+                                    <div class="timeline-title">南宁 → 桂林</div>
+                                    <div class="timeline-desc">🚄 高铁：D8268次 11:00发车 → 12:45抵达 | 行程时长1小时45分钟<br>📍 南宁站 → 桂林站，二等座 | 参考价格：¥125×2</div>
                                     <div class="timeline-badges">
-                                        <span class="badge time">3小时15分</span>
-                                        <span class="badge price">¥180（2人）</span>
+                                        <span class="badge time">1小时45分</span>
+                                        <span class="badge price">¥125×2</span>
                                     </div>
                                 </div>
                             </div>
                             <div class="timeline-item">
-                                <div class="timeline-time">15:00</div>
+                                <div class="timeline-time">13:30</div>
                                 <div class="timeline-content">
-                                    <div class="timeline-title">入住阳朔西街客栈</div>
-                                    <div class="timeline-desc">选择西街步行圈内的特色客栈，感受古街氛围</div>
+                                    <div class="timeline-title">桂林办理入住</div>
+                                    <div class="timeline-desc">🏨 <strong>亚朵酒店（桂林象山公园店）</strong><br>📍 桂林市象山区文明路8号 | ¥450-550/晚 | 近象鼻山，交通便利</div>
                                     <div class="timeline-badges">
                                         <span class="badge time">30分钟</span>
-                                        <span class="badge price">¥400-600/晚（2人）</span>
+                                        <span class="badge price">¥450-550/晚</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-time">14:30</div>
+                                <div class="timeline-content">
+                                    <div class="timeline-title">桂林米粉午餐</div>
+                                    <div class="timeline-desc">品尝正宗桂林米粉</div>
+                                    <div class="food-recommendations">
+                                        <div class="food-item">
+                                            <strong>崇善米粉</strong> - 解放西路 | 人均¥15-25 | 营业时间：6:00-14:00<br>
+                                            <small>桂林最有名的米粉店，汤头鲜美，配菜丰富</small>
+                                        </div>
+                                        <div class="food-item">
+                                            <strong>又益轩米粉</strong> - 中山中路 | 人均¥12-20 | 营业时间：6:30-14:00<br>
+                                            <small>老字号米粉店，口味地道，本地人首选</small>
+                                        </div>
+                                    </div>
+                                    <div class="timeline-badges">
+                                        <span class="badge time">1小时</span>
+                                        <span class="badge price">¥20-30×2</span>
                                     </div>
                                 </div>
                             </div>
                             <div class="timeline-item">
                                 <div class="timeline-time">16:00</div>
                                 <div class="timeline-content">
-                                    <div class="timeline-title">十里画廊骑行</div>
-                                    <div class="timeline-desc">租用电动车沿途欣赏喀斯特地貌。十里画廊是阳朔最美的风景线</div>
+                                    <div class="timeline-title">象鼻山公园</div>
+                                    <div class="timeline-desc">游览桂林标志性景点，象鼻山是桂林山水的象征</div>
                                     <div class="timeline-badges">
-                                        <span class="badge time">2.5小时</span>
-                                        <span class="badge price">¥80（2人）</span>
+                                        <span class="badge time">2小时</span>
+                                        <span class="badge price">¥60×2</span>
                                     </div>
                                 </div>
                             </div>
                             <div class="timeline-item">
-                                <div class="timeline-time">19:30</div>
+                                <div class="timeline-time">18:30</div>
                                 <div class="timeline-content">
-                                    <div class="timeline-title">西街晚餐 + 夜逛</div>
-                                    <div class="timeline-desc">品尝阳朔特色美食，体验中西文化交融</div>
+                                    <div class="timeline-title">正阳步行街</div>
+                                    <div class="timeline-desc">漫步桂林最热闹的商业街，购买特产</div>
+                                    <div class="timeline-badges">
+                                        <span class="badge time">1.5小时</span>
+                                        <span class="badge price">¥50-100×2（购物）</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-time">20:30</div>
+                                <div class="timeline-content">
+                                    <div class="timeline-title">两江四湖夜游</div>
+                                    <div class="timeline-desc">乘船游览桂林市区水系，欣赏桂林夜景</div>
+                                    <div class="timeline-badges">
+                                        <span class="badge time">2小时</span>
+                                        <span class="badge price">¥200×2</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-time">23:00</div>
+                                <div class="timeline-content">
+                                    <div class="timeline-title">桂林特色晚餐</div>
+                                    <div class="timeline-desc">品尝桂林美食</div>
+                                    <div class="food-recommendations">
+                                        <div class="food-item">
+                                            <strong>阿甘酒家</strong> - 滨江路 | 人均¥60-80 | 营业时间：17:00-22:00<br>
+                                            <small>桂林老字号，啤酒鱼和田螺酿是招牌</small>
+                                        </div>
+                                    </div>
+                                    <div class="timeline-badges">
+                                        <span class="badge time">1小时</span>
+                                        <span class="badge price">¥60-80×2</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="day-section">
+                        <div class="day-header">
+                            <div class="day-badge">5</div>
+                            <div class="day-info">
+                                <h3>桂林→阳朔→桂林（10月6日）</h3>
+                                <p>山水画廊，西街风情 | 🌤️ 阳朔天气：多云 25-36°C</p>
+                            </div>
+                        </div>
+                        <div class="day-timeline">
+                            <div class="timeline-item">
+                                <div class="timeline-time">08:00</div>
+                                <div class="timeline-content">
+                                    <div class="timeline-title">酒店早餐</div>
+                                    <div class="timeline-desc">在酒店享用早餐，准备阳朔一日游</div>
+                                    <div class="timeline-badges">
+                                        <span class="badge time">30分钟</span>
+                                        <span class="badge price">含酒店</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-time">09:00</div>
+                                <div class="timeline-content">
+                                    <div class="timeline-title">桂林 → 阳朔</div>
+                                    <div class="timeline-desc">🚌 桂林汽车总站 → 阳朔汽车站 | 行程约1.5小时<br>📍 班车频繁，约30分钟一班 | 参考价格：¥25/人</div>
+                                    <div class="timeline-badges">
+                                        <span class="badge time">1.5小时</span>
+                                        <span class="badge price">¥25×2</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-time">11:00</div>
+                                <div class="timeline-content">
+                                    <div class="timeline-title">遇龙河竹筏漂流</div>
+                                    <div class="timeline-desc">🏞️ 体验"小漓江"的宁静美好，竹筏悠然漂流<br>⚠️ 金龙桥到工农桥段，约1小时漂流时间</div>
+                                    <div class="timeline-badges">
+                                        <span class="badge time">2小时</span>
+                                        <span class="badge price">¥200×2</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-time">13:30</div>
+                                <div class="timeline-content">
+                                    <div class="timeline-title">阳朔西街午餐</div>
+                                    <div class="timeline-desc">在西街品尝阳朔特色美食</div>
                                     <div class="food-recommendations">
                                         <div class="food-item">
                                             <strong>大师傅啤酒鱼</strong> - 西街口 | 人均¥45-65 | 营业时间：11:00-22:00<br>
@@ -1756,80 +2037,52 @@
                                         </div>
                                     </div>
                                     <div class="timeline-badges">
+                                        <span class="badge time">1小时</span>
+                                        <span class="badge price">¥50-70×2</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-time">15:00</div>
+                                <div class="timeline-content">
+                                    <div class="timeline-title">十里画廊骑行</div>
+                                    <div class="timeline-desc">租用电动车沿途欣赏喀斯特地貌，十里画廊是阳朔最美的风景线</div>
+                                    <div class="timeline-badges">
                                         <span class="badge time">2小时</span>
-                                        <span class="badge price">¥120-180（2人）</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="day-section">
-                        <div class="day-header">
-                            <div class="day-badge">5</div>
-                            <div class="day-info">
-                                <h3>阳朔深度游</h3>
-                                <p>遇龙河竹筏，兴坪古镇探秘</p>
-                            </div>
-                        </div>
-                        <div class="day-timeline">
-                            <div class="timeline-item">
-                                <div class="timeline-time">10:00</div>
-                                <div class="timeline-content">
-                                    <div class="timeline-title">遇龙河竹筏漂流</div>
-                                    <div class="timeline-desc">体验"小漓江"的宁静美好，竹筏悠然漂流，欣赏两岸青山如画</div>
-                                    <div class="timeline-badges">
-                                        <span class="badge time">1.5小时</span>
-                                        <span class="badge price">¥400（2人）</span>
+                                        <span class="badge price">¥30×2</span>
                                     </div>
                                 </div>
                             </div>
                             <div class="timeline-item">
-                                <div class="timeline-time">12:30</div>
+                                <div class="timeline-time">17:30</div>
                                 <div class="timeline-content">
-                                    <div class="timeline-title">兴坪古镇游览</div>
-                                    <div class="timeline-desc">漫步古镇，漓江边摄影，寻找20元人民币背景。兴坪是漓江风光的精华所在</div>
-                                    <div class="food-recommendations">
-                                        <div class="food-item">
-                                            <strong>兴坪松花糖</strong> - 古镇内 | 人均¥10-15 | 营业时间：8:00-18:00<br>
-                                            <small>兴坪特产，香甜酥脆，适合做伴手礼</small>
-                                        </div>
-                                        <div class="food-item">
-                                            <strong>漓江鱼</strong> - 江边餐厅 | 人均¥40-60 | 营业时间：11:00-21:00<br>
-                                            <small>现捕现做，肉质鲜美，原汁原味</small>
-                                        </div>
-                                    </div>
-                                    <div class="timeline-badges">
-                                        <span class="badge time">2.5小时</span>
-                                        <span class="badge price">¥120-140（2人）</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="timeline-item">
-                                <div class="timeline-time">16:00</div>
-                                <div class="timeline-content">
-                                    <div class="timeline-title">返回阳朔西街</div>
-                                    <div class="timeline-desc">回到西街休息，购买特产纪念品</div>
+                                    <div class="timeline-title">西街购物 + 休息</div>
+                                    <div class="timeline-desc">在西街购买特产纪念品，体验中西文化交融</div>
                                     <div class="timeline-badges">
                                         <span class="badge time">1小时</span>
-                                        <span class="badge price">¥50（2人交通）</span>
+                                        <span class="badge price">¥50-100×2</span>
                                     </div>
                                 </div>
                             </div>
                             <div class="timeline-item">
                                 <div class="timeline-time">19:00</div>
                                 <div class="timeline-content">
-                                    <div class="timeline-title">西街特色晚餐</div>
-                                    <div class="timeline-desc">品尝更多阳朔美食</div>
-                                    <div class="food-recommendations">
-                                        <div class="food-item">
-                                            <strong>谢三姐啤酒鱼</strong> - 西街内 | 人均¥50-70 | 营业时间：11:00-22:30<br>
-                                            <small>老字号啤酒鱼，口味独特，分量足</small>
-                                        </div>
-                                    </div>
+                                    <div class="timeline-title">返回桂林</div>
+                                    <div class="timeline-desc">🚌 阳朔汽车站 → 桂林汽车总站 | 约1.5小时车程</div>
                                     <div class="timeline-badges">
                                         <span class="badge time">1.5小时</span>
-                                        <span class="badge price">¥120-160（2人）</span>
+                                        <span class="badge price">¥25×2</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-time">21:00</div>
+                                <div class="timeline-content">
+                                    <div class="timeline-title">桂林晚餐</div>
+                                    <div class="timeline-desc">回到桂林享用晚餐，准备明天返程</div>
+                                    <div class="timeline-badges">
+                                        <span class="badge time">1小时</span>
+                                        <span class="badge price">¥40-60×2</span>
                                     </div>
                                 </div>
                             </div>
@@ -1840,108 +2093,70 @@
                         <div class="day-header">
                             <div class="day-badge">6</div>
                             <div class="day-info">
-                                <h3>南宁深度游 → 成都</h3>
-                                <p>广西民族博物馆，完美收官</p>
+                                <h3>桂林→成都（10月7日）</h3>
+                                <p>购物休闲，桂林机场返程 | 🌤️ 桂林天气：多云 25-33°C</p>
                             </div>
                         </div>
                         <div class="day-timeline">
                             <div class="timeline-item">
-                                <div class="timeline-time">10:30</div>
+                                <div class="timeline-time">11:00</div>
                                 <div class="timeline-content">
-                                    <div class="timeline-title">广西民族博物馆</div>
-                                    <div class="timeline-desc">了解广西各民族的历史文化，欣赏精美的民族服饰和工艺品</div>
+                                    <div class="timeline-title">桂林市区购物</div>
+                                    <div class="timeline-desc">在正阳步行街或微笑堂购买桂林特产：桂花糕、三花酒、辣椒酱等</div>
                                     <div class="timeline-badges">
                                         <span class="badge time">2小时</span>
-                                        <span class="badge price">¥60（2人）</span>
+                                        <span class="badge price">¥100-200×2</span>
                                     </div>
                                 </div>
                             </div>
                             <div class="timeline-item">
-                                <div class="timeline-time">13:00</div>
+                                <div class="timeline-time">13:30</div>
                                 <div class="timeline-content">
-                                    <div class="timeline-title">三街两巷历史文化街区</div>
-                                    <div class="timeline-desc">体验南宁老城区风貌，购买特产，品尝最后的南宁美食</div>
+                                    <div class="timeline-title">桂林米粉午餐</div>
+                                    <div class="timeline-desc">最后一次品尝正宗桂林米粉</div>
                                     <div class="food-recommendations">
                                         <div class="food-item">
-                                            <strong>生榨米粉</strong> - 三街两巷内 | 人均¥15-25 | 营业时间：10:00-22:00<br>
-                                            <small>现榨现煮，米香浓郁，配菜新鲜</small>
-                                        </div>
-                                        <div class="food-item">
-                                            <strong>八珍粉</strong> - 兴宁路 | 人均¥20-35 | 营业时间：11:00-23:00<br>
-                                            <small>配料丰富，营养全面，南宁人的最爱</small>
+                                            <strong>崇善米粉</strong> - 解放西路 | 人均¥15-25 | 营业时间：6:00-14:00<br>
+                                            <small>桂林最有名的米粉店，汤头鲜美，配菜丰富</small>
                                         </div>
                                     </div>
-                                    <div class="timeline-badges">
-                                        <span class="badge time">2小时</span>
-                                        <span class="badge price">¥70-120（2人）</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="timeline-item">
-                                <div class="timeline-time">15:30</div>
-                                <div class="timeline-content">
-                                    <div class="timeline-title">前往南宁吴圩机场</div>
-                                    <div class="timeline-desc">搭乘机场大巴前往机场，办理登机手续</div>
                                     <div class="timeline-badges">
                                         <span class="badge time">1小时</span>
-                                        <span class="badge price">¥50（2人）</span>
+                                        <span class="badge price">¥20-30×2</span>
                                     </div>
                                 </div>
                             </div>
                             <div class="timeline-item">
-                                <div class="timeline-time">18:20</div>
+                                <div class="timeline-time">16:00</div>
                                 <div class="timeline-content">
-                                    <div class="timeline-title">南宁 → 成都</div>
-                                    <div class="timeline-desc">搭乘航班返回成都，20:35抵达天府机场，结束愉快旅程</div>
+                                    <div class="timeline-title">桂林 → 桂林两江机场</div>
+                                    <div class="timeline-desc">🚌 机场大巴约45分钟到达桂林两江机场<br>📍 建议提前3小时到达机场，办理登机手续</div>
                                     <div class="timeline-badges">
-                                        <span class="badge time">2小时15分</span>
-                                        <span class="badge price">¥1200-1800（2人）</span>
+                                        <span class="badge time">1小时</span>
+                                        <span class="badge price">¥30×2</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-time">19:50</div>
+                                <div class="timeline-content">
+                                    <div class="timeline-title">桂林两江机场 → 成都天府机场</div>
+                                    <div class="timeline-desc">🛫 航班：CA2738次 19:50起飞 → 21:35抵达 | 飞行时长1小时45分钟<br>📍 桂林两江机场T2航站楼 → 成都天府机场T2航站楼 | 票价：¥1130/人</div>
+                                    <div class="timeline-badges">
+                                        <span class="badge time">1小时45分</span>
+                                        <span class="badge price">¥1130×2</span>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                
+
             </section>
         </main>
 
-        <!-- 预算概览 -->
-        <section id="budget" class="budget-section fade-in-up">
-            <div class="card-header">
-                <div class="card-icon">
-                    <i class="fas fa-calculator"></i>
-                </div>
-                <h2 class="card-title">预算概览</h2>
-            </div>
-            
-            <div class="budget-grid">
-                <div class="budget-item">
-                    <div class="budget-category">往返机票（2人）</div>
-                    <div class="budget-amount primary">¥1800-2800</div>
-                </div>
-                <div class="budget-item">
-                    <div class="budget-category">省内交通（2人）</div>
-                    <div class="budget-amount success">¥500-700</div>
-                </div>
-                <div class="budget-item">
-                    <div class="budget-category">住宿费用（5晚）</div>
-                    <div class="budget-amount warning">¥2000-3000</div>
-                </div>
-                <div class="budget-item">
-                    <div class="budget-category">餐饮娱乐（2人）</div>
-                    <div class="budget-amount danger">¥1200-1800</div>
-                </div>
-                <div class="budget-item">
-                    <div class="budget-category">景点门票（2人）</div>
-                    <div class="budget-amount info">¥800-1200</div>
-                </div>
-            </div>
-            
-            <div class="budget-total">
-                <span class="budget-total-label">2人总预算</span>
-                <span class="budget-total-amount">¥6300-9500</span>
-            </div>
-        </section>
+
     </div>
 
     <!-- 模态框 -->
@@ -1980,9 +2195,8 @@
                 {name:'桂林两江国际机场',lat:25.218056,lon:110.039167,cat:'transport'},
                 {name:'南宁吴圩国际机场',lat:22.601718,lon:108.187631,cat:'transport'},
                 {name:'桂林站',lat:25.316667,lon:110.283333,cat:'transport'},
-                {name:'阳朔站',lat:24.960139,lon:110.568081,cat:'transport'},
-                {name:'柳州站',lat:24.307786,lon:109.388307,cat:'transport'},
-                {name:'南宁东站',lat:22.841826,lon:108.413527,cat:'transport'},
+                {name:'南宁站',lat:22.816667,lon:108.316667,cat:'transport'},
+                {name:'阳朔汽车站',lat:24.773869,lon:110.493986,cat:'transport'},
                 
                 // 景点
                 {name:'象鼻山公园',lat:25.274167,lon:110.289167,cat:'attractions'},
@@ -1990,22 +2204,33 @@
                 {name:'十里画廊',lat:24.777530,lon:110.433115,cat:'attractions'},
                 {name:'遇龙河景区',lat:24.777530,lon:110.433115,cat:'attractions'},
                 {name:'兴坪古镇',lat:24.916611,lon:110.530606,cat:'attractions'},
-                {name:'柳侯公园',lat:24.344108,lon:109.423811,cat:'attractions'},
                 {name:'青秀山风景区',lat:22.788660,lon:108.395254,cat:'attractions'},
                 {name:'民歌湖',lat:22.810380,lon:108.324606,cat:'attractions'},
                 {name:'广西民族博物馆',lat:22.788660,lon:108.395254,cat:'attractions'},
                 {name:'三街两巷',lat:22.810380,lon:108.324606,cat:'attractions'},
+                {name:'广西药用植物园',lat:22.866667,lon:108.350000,cat:'attractions'},
+                {name:'南湖公园',lat:22.783333,lon:108.316667,cat:'attractions'},
+                {name:'两江四湖',lat:25.274167,lon:110.289167,cat:'attractions'},
+                {name:'正阳步行街',lat:25.274167,lon:110.289167,cat:'attractions'},
                 
                 // 美食
                 {name:'崇善米粉(桂林)',lat:25.274167,lon:110.289167,cat:'food'},
-                {name:'小南国(桂林)',lat:25.274167,lon:110.289167,cat:'food'},
+                {name:'阿甘酒家(桂林)',lat:25.274167,lon:110.289167,cat:'food'},
                 {name:'大师傅啤酒鱼(阳朔)',lat:24.773869,lon:110.493986,cat:'food'},
                 {name:'谢三姐啤酒鱼(阳朔)',lat:24.773869,lon:110.493986,cat:'food'},
-                {name:'螺霸王螺蛳粉(柳州)',lat:24.282146,lon:109.434356,cat:'food'},
-                {name:'老友螺蛳粉(柳州)',lat:24.282146,lon:109.434356,cat:'food'},
                 {name:'复记老友粉(南宁)',lat:22.810380,lon:108.324606,cat:'food'},
                 {name:'阿香柠檬鸭(南宁)',lat:22.810380,lon:108.324606,cat:'food'},
-                {name:'生榨米粉(南宁)',lat:22.810380,lon:108.324606,cat:'food'}
+                {name:'中山路美食街(南宁)',lat:22.816667,lon:108.316667,cat:'food'},
+                {name:'绿城食府(南宁)',lat:22.816667,lon:108.333333,cat:'food'},
+                
+                // 住宿
+                {name:'亚朵酒店(南宁万象城店)',lat:22.816667,lon:108.350000,cat:'hotels'},
+                {name:'亚朵酒店(桂林象山公园店)',lat:25.274167,lon:110.289167,cat:'hotels'},
+                
+                // 东兴相关POI
+                {name:'防城港北站',lat:21.614167,lon:108.353333,cat:'transport'},
+                {name:'东兴国门景区',lat:21.540000,lon:107.970000,cat:'attractions'},
+                {name:'中越边贸街',lat:21.541667,lon:107.971667,cat:'attractions'}
             ];
             
             // 定义不同类型的图标
@@ -2024,6 +2249,11 @@
                     html: '<i class="fas fa-utensils" style="color: #059669;"></i>',
                     iconSize: [20, 20],
                     className: 'custom-div-icon'
+                }),
+                hotels: L.divIcon({
+                    html: '<i class="fas fa-bed" style="color: #8b5cf6;"></i>',
+                    iconSize: [20, 20],
+                    className: 'custom-div-icon'
                 })
             };
             
@@ -2035,6 +2265,7 @@
                         <p style="margin: 0; font-size: 12px; color: #666;">
                             ${p.cat === 'transport' ? '🚄 交通枢纽' : 
                               p.cat === 'food' ? '🍜 美食推荐' : 
+                              p.cat === 'hotels' ? '🏨 住宿推荐' :
                               '🏞️ 景点推荐'}
                         </p>
                     </div>
@@ -2044,67 +2275,7 @@
             });
         }
         
-        // 天气日期切换
-        function setupWeatherDates() {
-            const weatherData = {
-                '10-01': [
-                    {city: '南宁', temp: '25-30°C', condition: '多云转晴'},
-                    {city: '柳州', temp: '23-28°C', condition: '晴转多云'},
-                    {city: '阳朔', temp: '22-27°C', condition: '多云'}
-                ],
-                '10-02': [
-                    {city: '南宁', temp: '26-31°C', condition: '晴'},
-                    {city: '柳州', temp: '24-29°C', condition: '多云'},
-                    {city: '阳朔', temp: '23-28°C', condition: '晴转多云'}
-                ],
-                '10-03': [
-                    {city: '南宁', temp: '24-29°C', condition: '小雨转多云'},
-                    {city: '柳州', temp: '22-27°C', condition: '小雨'},
-                    {city: '阳朔', temp: '21-26°C', condition: '小雨转阴'}
-                ],
-                '10-04': [
-                    {city: '南宁', temp: '23-28°C', condition: '阴转多云'},
-                    {city: '柳州', temp: '21-26°C', condition: '多云'},
-                    {city: '阳朔', temp: '20-25°C', condition: '多云转晴'}
-                ],
-                '10-05': [
-                    {city: '南宁', temp: '25-30°C', condition: '晴'},
-                    {city: '柳州', temp: '23-28°C', condition: '晴'},
-                    {city: '阳朔', temp: '22-27°C', condition: '晴'}
-                ],
-                '10-06': [
-                    {city: '南宁', temp: '26-31°C', condition: '晴转多云'},
-                    {city: '柳州', temp: '24-29°C', condition: '多云'},
-                    {city: '阳朔', temp: '23-28°C', condition: '多云'}
-                ],
-                '10-07': [
-                    {city: '南宁', temp: '25-30°C', condition: '多云'},
-                    {city: '柳州', temp: '23-28°C', condition: '多云转晴'},
-                    {city: '阳朔', temp: '22-27°C', condition: '晴'}
-                ]
-            };
-            
-            document.querySelectorAll('.date-btn').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    const date = btn.dataset.date;
-                    const data = weatherData[date];
-                    
-                    // 更新按钮状态
-                    document.querySelectorAll('.date-btn').forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
-                    
-                    // 更新天气内容
-                    const weatherContent = document.getElementById('weather-content');
-                    weatherContent.innerHTML = data.map(item => `
-                        <div class="weather-day">
-                            <div class="weather-city">${item.city}</div>
-                            <div class="weather-temp">${item.temp}</div>
-                            <div class="weather-condition">${item.condition}</div>
-                        </div>
-                    `).join('');
-                });
-            });
-        }
+        // 天气信息已集成到行程中，无需单独处理
         
         // 地图筛选
         function setupFilters() {
@@ -2244,33 +2415,66 @@
         
         // H5移动端优化
         function initMobileOptimization() {
-            // 防止iOS橡皮筋效果
-            document.body.addEventListener('touchmove', function(e) {
-                if (e.target === document.body) {
-                    e.preventDefault();
-                }
-            }, { passive: false });
+            // 检测是否为移动设备
+            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            
+            if (isMobile) {
+                // 防止iOS橡皮筋效果
+                document.body.addEventListener('touchmove', function(e) {
+                    if (e.target === document.body) {
+                        e.preventDefault();
+                    }
+                }, { passive: false });
+                
+                // 防止双击缩放
+                document.addEventListener('touchstart', function(e) {
+                    if (e.touches.length > 1) {
+                        e.preventDefault();
+                    }
+                }, { passive: false });
+                
+                let lastTouchEnd = 0;
+                document.addEventListener('touchend', function(e) {
+                    const now = (new Date()).getTime();
+                    if (now - lastTouchEnd <= 300) {
+                        e.preventDefault();
+                    }
+                    lastTouchEnd = now;
+                }, { passive: false });
+            }
             
             // 移动端导航点击优化
-            document.querySelectorAll('.nav-links a').forEach(link => {
-                link.addEventListener('touchstart', function() {
+            document.querySelectorAll('.nav-links a, .brand').forEach(element => {
+                element.addEventListener('touchstart', function() {
                     this.style.opacity = '0.7';
-                });
+                    this.style.transform = 'scale(0.98)';
+                }, { passive: true });
                 
-                link.addEventListener('touchend', function() {
+                element.addEventListener('touchend', function() {
                     this.style.opacity = '1';
-                });
+                    this.style.transform = '';
+                }, { passive: true });
+                
+                element.addEventListener('touchcancel', function() {
+                    this.style.opacity = '1';
+                    this.style.transform = '';
+                }, { passive: true });
             });
             
             // 移动端按钮触摸反馈
-            document.querySelectorAll('.date-btn, .btn').forEach(btn => {
-                btn.addEventListener('touchstart', function(e) {
-                    this.style.transform = 'scale(0.95)';
-                });
+            document.querySelectorAll('.map-control, .timeline-item').forEach(element => {
+                element.addEventListener('touchstart', function(e) {
+                    this.style.transform = 'scale(0.98)';
+                    this.style.transition = 'transform 0.1s ease';
+                }, { passive: true });
                 
-                btn.addEventListener('touchend', function(e) {
+                element.addEventListener('touchend', function(e) {
                     this.style.transform = '';
-                });
+                }, { passive: true });
+                
+                element.addEventListener('touchcancel', function(e) {
+                    this.style.transform = '';
+                }, { passive: true });
             });
             
             // 检测设备方向变化
@@ -2279,14 +2483,31 @@
                     if (window.map) {
                         window.map.invalidateSize();
                     }
-                }, 100);
+                    // 重新计算视口高度
+                    document.body.style.height = window.innerHeight + 'px';
+                }, 200);
             });
+            
+            // 处理iOS Safari地址栏隐藏问题
+            window.addEventListener('resize', function() {
+                if (isMobile) {
+                    setTimeout(() => {
+                        if (window.map) {
+                            window.map.invalidateSize();
+                        }
+                    }, 100);
+                }
+            });
+            
+            // 添加移动端专用样式类
+            if (isMobile) {
+                document.body.classList.add('mobile-device');
+            }
         }
         
         // 初始化
         document.addEventListener('DOMContentLoaded', function() {
             initMap();
-            setupWeatherDates();
             setupFilters();
             initMobileOptimization();
             
@@ -2322,5 +2543,6 @@
     </script>
 </body>
 </html>
+
 
 
